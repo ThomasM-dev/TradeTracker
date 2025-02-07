@@ -1,3 +1,23 @@
-.Home {
+.home-introduction {
     background-color: #000;
-}
+    padding: 50px 0;
+  }
+  
+  .home-introduction h2 {
+    color: #ecf0f1;
+    font-size: 2.5rem;
+  }
+  
+  .home-introduction p {
+    color: #bdc3c7;
+    font-size: 1.2rem;
+  }
+  
+  .home-introduction .text-center {
+    margin-top: 20px;
+  }
+  
+  .home-introduction img {
+    border-radius: 15px;
+  }
+  
