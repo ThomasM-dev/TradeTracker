@@ -18,7 +18,7 @@ export const Home = () => {
           </CCol>
           <CCol lg={6}>
             <img
-              src="https://via.placeholder.com/500x300"
+              src="/bg-home.webp"
               alt="Imagen de Introducción"
               className="img-fluid rounded"
             />
