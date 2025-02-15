@@ -39,7 +39,7 @@
   max-width: 300px;
   margin: 20px auto;
   padding: 10px;
-  background: #007bff;
+  background: #0e0767;
   color: white;
   border: none;
   border-radius: 5px;
@@ -48,7 +48,7 @@
 }
 
 .add-operation-button:hover {
-  background: #022041;
+  background: #371ae5;
 }
 
 /* Responsividad */
