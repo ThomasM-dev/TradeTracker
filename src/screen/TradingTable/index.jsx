@@ -20,23 +20,19 @@ import {
   setDailyStats,
   setYearlyStats,
   setMonthlyStats,
-} from "../../date/statsSlice";
+} from "../../date/statsSlice.js";
+import { useGetStatsQuery, useSaveStatsMutation } from "../../date/firebaseApi.js";
 
 const TradingTable = () => {
-  const table = useSelector((state) => state.stats.yearlyStats);
-  const tableDia = useSelector((state) => state.stats.dailyStats);
-  console.log(tableDia);
-  
-
-  const [operations, setOperations] = useState([]); 
+  const userId = 123; // ID de usuario fijo (puedes cambiarlo dinámicamente)
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (table) {
-      setOperations(table);
-    }
-  }, [table]);
+  // Obtener datos de Firebase usando RTK Query
+  const { data: stats, isLoading, isError } = useGetStatsQuery(userId);
+  const [saveStats] = useSaveStatsMutation();
 
+  // Estado local para las operaciones
+  const [operations, setOperations] = useState([]);
   const [newOperation, setNewOperation] = useState({
     id: null,
     fechaHora: "",
@@ -54,15 +50,28 @@ const TradingTable = () => {
     errores: "",
   });
 
+  // Cargar datos de Firebase al montar el componente
+  useEffect(() => {
+    if (stats) {
+      setOperations(stats.yearlyStats || []);
+      dispatch(setYearlyStats(stats.yearlyStats || []));
+      dispatch(setMonthlyStats(stats.monthlyStats || []));
+      dispatch(setDailyStats(stats.dailyStats || []));
+    }
+  }, [stats, dispatch]);
+
+  // Estilos
   const cardStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
   const inputStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
   const tableCellStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
 
+  // Manejar cambios en los inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewOperation({ ...newOperation, [name]: value });
   };
 
+  // Validar la operación
   const validateOperation = () => {
     const { fechaHora, activo, tipoOperacion } = newOperation;
     if (!fechaHora || !activo || !tipoOperacion) {
@@ -72,22 +81,29 @@ const TradingTable = () => {
     return true;
   };
 
-  const addOperation = () => {
+  // Agregar una nueva operación
+  const addOperation = async () => {
     if (!validateOperation()) return;
 
     const operationWithId = { ...newOperation, id: Date.now() };
+    const updatedOperations = [...operations, operationWithId];
 
-    // Asegúrate de que `operations` sea un array antes de usarlo
-    const updatedOperations = Array.isArray(operations) ? [...operations, operationWithId] : [operationWithId];
-
+    // Actualizar el estado local
     setOperations(updatedOperations);
 
-    // Actualizar el estado global una sola vez
+    // Actualizar el estado global
     dispatch(setYearlyStats(updatedOperations));
     dispatch(setMonthlyStats(updatedOperations));
     dispatch(setDailyStats(updatedOperations));
 
-    // Reiniciar el formulario
+    // Guardar en Firebase
+    const stats = {
+      yearlyStats: updatedOperations,
+      monthlyStats: updatedOperations,
+      dailyStats: updatedOperations,
+    };
+    await saveStats({ userId, stats });
+
     setNewOperation({
       id: null,
       fechaHora: "",
@@ -105,6 +121,12 @@ const TradingTable = () => {
       errores: "",
     });
   };
+
+
+  if (isLoading) return <p>Cargando...</p>;
+  if (isError) return <p>Error al cargar los datos</p>;
+
+  const noData = !stats || !stats.yearlyStats || stats.yearlyStats.length === 0;
 
   return (
     <CContainer
@@ -238,7 +260,6 @@ const TradingTable = () => {
         </CCardBody>
       </CCard>
 
-      {/* Tabla de operaciones */}
       <CTable striped hover responsive className="mt-4">
         <CTableHead style={tableCellStyle}>
           <CTableRow>
@@ -258,7 +279,11 @@ const TradingTable = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody style={tableCellStyle}>
-          {Array.isArray(operations) && operations.length > 0 ? (
+          {noData ? (
+            <CTableRow>
+              <CTableDataCell colSpan={13}>No hay operaciones registradas</CTableDataCell>
+            </CTableRow>
+          ) : (
             operations.map((op) => (
               <CTableRow key={op.id} style={tableCellStyle}>
                 <CTableDataCell>{op.fechaHora}</CTableDataCell>
@@ -276,10 +301,6 @@ const TradingTable = () => {
                 <CTableDataCell>{op.errores}</CTableDataCell>
               </CTableRow>
             ))
-          ) : (
-            <CTableRow>
-              <CTableDataCell colSpan={13}>No hay operaciones registradas</CTableDataCell>
-            </CTableRow>
           )}
         </CTableBody>
       </CTable>

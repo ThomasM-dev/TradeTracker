@@ -2,6 +2,7 @@ import './App.css'
 import { NavBar } from './components/NavBar'
 import { Home } from './screen/Home'
 import MarketPrices from './screen/MarketPrices'
+import PieCharts from './screen/PieCharts'
 import TradingTable from './screen/TradingTable'
 
 
@@ -13,6 +14,7 @@ function App() {
     <NavBar/>
     <Home/>
     <TradingTable/>
+    <PieCharts/>
     <MarketPrices/>
     </>
   )

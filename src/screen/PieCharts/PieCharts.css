@@ -1,0 +1,16 @@
+.pie-charts-container {
+    padding: 20px;
+  }
+  
+  .pie-charts-container .ccard-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .pie-charts-container .ccard-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+  
