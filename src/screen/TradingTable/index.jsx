@@ -29,7 +29,6 @@ const TradingTable = () => {
     stopLoss: "",
     takeProfit: "",
     ratioRiesgoBeneficio: "",
-    apalancamiento: "",
     comision: "",
     gananciaPerdida: "",
     roi: "",
@@ -48,7 +47,11 @@ const TradingTable = () => {
   };
 
   const addOperation = () => {
-    if (!newOperation.fechaHora || !newOperation.activo || !newOperation.tipoOperacion) {
+    if (
+      !newOperation.fechaHora ||
+      !newOperation.activo ||
+      !newOperation.tipoOperacion
+    ) {
       alert("Por favor, completa los campos obligatorios.");
       return;
     }
@@ -68,7 +71,6 @@ const TradingTable = () => {
       stopLoss: "",
       takeProfit: "",
       ratioRiesgoBeneficio: "",
-      apalancamiento: "",
       comision: "",
       gananciaPerdida: "",
       roi: "",
@@ -79,7 +81,14 @@ const TradingTable = () => {
   };
 
   return (
-    <CContainer className="mt-4" style={{ backgroundColor: "#121212", padding: "20px", borderRadius: "10px" }}>
+    <CContainer
+      className="mt-4"
+      style={{
+        backgroundColor: "#121212",
+        padding: "20px",
+        borderRadius: "10px",
+      }}
+    >
       <CCard style={cardStyle}>
         <CCardHeader className="text-center" style={cardStyle}>
           <h1>Registro de Operaciones de Trading</h1>
@@ -145,6 +154,58 @@ const TradingTable = () => {
               value={newOperation.precioSalida}
               onChange={handleInputChange}
             />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              name="stop loss"
+              label="Stop Loss"
+              value={newOperation.stopLoss}
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              name="takeprofit"
+              label="Take Profit"
+              value={newOperation.takeProfit}
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              label="Ganancia/Perdida"
+              name="ganancia/perdida"
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              label="ROI"
+              name="ROI"
+              onChange={handleInputChange}
+            />
+
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              label="Razon De Entrada"
+              name="Razon de Entrada"
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              label="Emocion"
+              name="Emocion"
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="string"
+              label="Erroes"
+              name="Errores"
+              onChange={handleInputChange}
+            />
           </div>
           <CButton
             color="danger"
@@ -160,17 +221,33 @@ const TradingTable = () => {
       <CTable striped hover responsive className="mt-4">
         <CTableHead style={tableCellStyle}>
           <CTableRow>
-            <CTableHeaderCell style={tableCellStyle}>Fecha y Hora</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Fecha y Hora
+            </CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Activo</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Tipo de Operación</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Tipo de Operación
+            </CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Cantidad</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Precio de Entrada</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Precio de Salida</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Stop Loss</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Take Profit</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Ganancia/Pérdida</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Precio de Entrada
+            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Precio de Salida
+            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Stop Loss
+            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Take Profit
+            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Ganancia/Pérdida
+            </CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>ROI</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>Razón Entrada</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>
+              Razón Entrada
+            </CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Emoción</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Errores</CTableHeaderCell>
           </CTableRow>
