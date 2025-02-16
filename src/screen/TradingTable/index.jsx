@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CTable,
   CTableHead,
@@ -15,9 +15,28 @@ import {
   CCardHeader,
 } from "@coreui/react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setDailyStats,
+  setYearlyStats,
+  setMonthlyStats,
+} from "../../date/statsSlice";
 
 const TradingTable = () => {
-  const [operations, setOperations] = useState([]);
+  const table = useSelector((state) => state.stats.yearlyStats);
+  const tableDia = useSelector((state) => state.stats.dailyStats);
+  console.log(tableDia);
+  
+
+  const [operations, setOperations] = useState([]); 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (table) {
+      setOperations(table);
+    }
+  }, [table]);
+
   const [newOperation, setNewOperation] = useState({
     id: null,
     fechaHora: "",
@@ -28,8 +47,6 @@ const TradingTable = () => {
     precioSalida: "",
     stopLoss: "",
     takeProfit: "",
-    ratioRiesgoBeneficio: "",
-    comision: "",
     gananciaPerdida: "",
     roi: "",
     razonEntrada: "",
@@ -46,20 +63,31 @@ const TradingTable = () => {
     setNewOperation({ ...newOperation, [name]: value });
   };
 
-  const addOperation = () => {
-    if (
-      !newOperation.fechaHora ||
-      !newOperation.activo ||
-      !newOperation.tipoOperacion
-    ) {
-      alert("Por favor, completa los campos obligatorios.");
-      return;
+  const validateOperation = () => {
+    const { fechaHora, activo, tipoOperacion } = newOperation;
+    if (!fechaHora || !activo || !tipoOperacion) {
+      alert("Por favor, completa los campos obligatorios: Fecha y Hora, Activo y Tipo de Operación.");
+      return false;
     }
+    return true;
+  };
+
+  const addOperation = () => {
+    if (!validateOperation()) return;
 
     const operationWithId = { ...newOperation, id: Date.now() };
 
-    setOperations([...operations, operationWithId]);
+    // Asegúrate de que `operations` sea un array antes de usarlo
+    const updatedOperations = Array.isArray(operations) ? [...operations, operationWithId] : [operationWithId];
 
+    setOperations(updatedOperations);
+
+    // Actualizar el estado global una sola vez
+    dispatch(setYearlyStats(updatedOperations));
+    dispatch(setMonthlyStats(updatedOperations));
+    dispatch(setDailyStats(updatedOperations));
+
+    // Reiniciar el formulario
     setNewOperation({
       id: null,
       fechaHora: "",
@@ -70,8 +98,6 @@ const TradingTable = () => {
       precioSalida: "",
       stopLoss: "",
       takeProfit: "",
-      ratioRiesgoBeneficio: "",
-      comision: "",
       gananciaPerdida: "",
       roi: "",
       razonEntrada: "",
@@ -83,11 +109,7 @@ const TradingTable = () => {
   return (
     <CContainer
       className="mt-4"
-      style={{
-        backgroundColor: "#121212",
-        padding: "20px",
-        borderRadius: "10px",
-      }}
+      style={{ backgroundColor: "#121212", padding: "20px", borderRadius: "10px" }}
     >
       <CCard style={cardStyle}>
         <CCardHeader className="text-center" style={cardStyle}>
@@ -96,7 +118,6 @@ const TradingTable = () => {
         <CCardBody style={cardStyle}>
           <h2 className="mb-3 text-center">Agregar Nueva Operación</h2>
           <div className="row g-3 mb-4">
-            {/* Fecha y Hora */}
             <CFormInput
               style={inputStyle}
               type="datetime-local"
@@ -105,7 +126,6 @@ const TradingTable = () => {
               value={newOperation.fechaHora}
               onChange={handleInputChange}
             />
-            {/* Activo */}
             <CFormInput
               style={inputStyle}
               type="text"
@@ -114,7 +134,6 @@ const TradingTable = () => {
               value={newOperation.activo}
               onChange={handleInputChange}
             />
-            {/* Tipo de Operación */}
             <CFormSelect
               style={inputStyle}
               name="tipoOperacion"
@@ -128,7 +147,6 @@ const TradingTable = () => {
               <option value="Long">Long</option>
               <option value="Short">Short</option>
             </CFormSelect>
-            {/* Cantidad Operada */}
             <CFormInput
               style={inputStyle}
               type="number"
@@ -137,7 +155,6 @@ const TradingTable = () => {
               value={newOperation.cantidad}
               onChange={handleInputChange}
             />
-            {/* Precio de Entrada y Salida */}
             <CFormInput
               style={inputStyle}
               type="number"
@@ -156,54 +173,58 @@ const TradingTable = () => {
             />
             <CFormInput
               style={inputStyle}
-              type="string"
-              name="stop loss"
+              type="number"
+              name="stopLoss"
               label="Stop Loss"
               value={newOperation.stopLoss}
               onChange={handleInputChange}
             />
             <CFormInput
               style={inputStyle}
-              type="string"
-              name="takeprofit"
+              type="number"
+              name="takeProfit"
               label="Take Profit"
               value={newOperation.takeProfit}
               onChange={handleInputChange}
             />
             <CFormInput
               style={inputStyle}
-              type="string"
+              type="number"
+              name="gananciaPerdida"
               label="Ganancia/Perdida"
-              name="ganancia/perdida"
+              value={newOperation.gananciaPerdida}
               onChange={handleInputChange}
             />
             <CFormInput
               style={inputStyle}
-              type="string"
+              type="number"
+              name="roi"
               label="ROI"
-              name="ROI"
-              onChange={handleInputChange}
-            />
-
-            <CFormInput
-              style={inputStyle}
-              type="string"
-              label="Razon De Entrada"
-              name="Razon de Entrada"
+              value={newOperation.roi}
               onChange={handleInputChange}
             />
             <CFormInput
               style={inputStyle}
-              type="string"
-              label="Emocion"
-              name="Emocion"
+              type="text"
+              name="razonEntrada"
+              label="Razón de Entrada"
+              value={newOperation.razonEntrada}
               onChange={handleInputChange}
             />
             <CFormInput
               style={inputStyle}
-              type="string"
-              label="Erroes"
-              name="Errores"
+              type="text"
+              name="emocion"
+              label="Emoción"
+              value={newOperation.emocion}
+              onChange={handleInputChange}
+            />
+            <CFormInput
+              style={inputStyle}
+              type="text"
+              name="errores"
+              label="Errores"
+              value={newOperation.errores}
               onChange={handleInputChange}
             />
           </div>
@@ -217,59 +238,49 @@ const TradingTable = () => {
         </CCardBody>
       </CCard>
 
-      {/* Tabla de Operaciones */}
+      {/* Tabla de operaciones */}
       <CTable striped hover responsive className="mt-4">
         <CTableHead style={tableCellStyle}>
           <CTableRow>
-            <CTableHeaderCell style={tableCellStyle}>
-              Fecha y Hora
-            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Fecha y Hora</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Activo</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Tipo de Operación
-            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Tipo de Operación</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Cantidad</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Precio de Entrada
-            </CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Precio de Salida
-            </CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Stop Loss
-            </CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Take Profit
-            </CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Ganancia/Pérdida
-            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Precio de Entrada</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Precio de Salida</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Stop Loss</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Take Profit</CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Ganancia/Pérdida</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>ROI</CTableHeaderCell>
-            <CTableHeaderCell style={tableCellStyle}>
-              Razón Entrada
-            </CTableHeaderCell>
+            <CTableHeaderCell style={tableCellStyle}>Razón Entrada</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Emoción</CTableHeaderCell>
             <CTableHeaderCell style={tableCellStyle}>Errores</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody style={tableCellStyle}>
-          {operations.map((op) => (
-            <CTableRow key={op.id} style={tableCellStyle}>
-              <CTableDataCell>{op.fechaHora}</CTableDataCell>
-              <CTableDataCell>{op.activo}</CTableDataCell>
-              <CTableDataCell>{op.tipoOperacion}</CTableDataCell>
-              <CTableDataCell>{op.cantidad}</CTableDataCell>
-              <CTableDataCell>{op.precioEntrada}</CTableDataCell>
-              <CTableDataCell>{op.precioSalida}</CTableDataCell>
-              <CTableDataCell>{op.stopLoss}</CTableDataCell>
-              <CTableDataCell>{op.takeProfit}</CTableDataCell>
-              <CTableDataCell>{op.gananciaPerdida}</CTableDataCell>
-              <CTableDataCell>{op.roi}</CTableDataCell>
-              <CTableDataCell>{op.razonEntrada}</CTableDataCell>
-              <CTableDataCell>{op.emocion}</CTableDataCell>
-              <CTableDataCell>{op.errores}</CTableDataCell>
+          {Array.isArray(operations) && operations.length > 0 ? (
+            operations.map((op) => (
+              <CTableRow key={op.id} style={tableCellStyle}>
+                <CTableDataCell>{op.fechaHora}</CTableDataCell>
+                <CTableDataCell>{op.activo}</CTableDataCell>
+                <CTableDataCell>{op.tipoOperacion}</CTableDataCell>
+                <CTableDataCell>{op.cantidad}</CTableDataCell>
+                <CTableDataCell>{op.precioEntrada}</CTableDataCell>
+                <CTableDataCell>{op.precioSalida}</CTableDataCell>
+                <CTableDataCell>{op.stopLoss}</CTableDataCell>
+                <CTableDataCell>{op.takeProfit}</CTableDataCell>
+                <CTableDataCell>{op.gananciaPerdida}</CTableDataCell>
+                <CTableDataCell>{op.roi}</CTableDataCell>
+                <CTableDataCell>{op.razonEntrada}</CTableDataCell>
+                <CTableDataCell>{op.emocion}</CTableDataCell>
+                <CTableDataCell>{op.errores}</CTableDataCell>
+              </CTableRow>
+            ))
+          ) : (
+            <CTableRow>
+              <CTableDataCell colSpan={13}>No hay operaciones registradas</CTableDataCell>
             </CTableRow>
-          ))}
+          )}
         </CTableBody>
       </CTable>
     </CContainer>
