@@ -22,17 +22,22 @@ import {
   setMonthlyStats,
 } from "../../date/statsSlice.js";
 import { useGetStatsQuery, useSaveStatsMutation } from "../../date/firebaseApi.js";
+import { DateTime } from "luxon"; // Importa Luxon para manejar fechas
 
 const TradingTable = () => {
-  const userId = 123; // ID de usuario fijo (puedes cambiarlo dinámicamente)
   const dispatch = useDispatch();
 
   // Obtener datos de Firebase usando RTK Query
-  const { data: stats, isLoading, isError } = useGetStatsQuery(userId);
+  const { data: stats, isLoading, isError } = useGetStatsQuery();
   const [saveStats] = useSaveStatsMutation();
 
   // Estado local para las operaciones
-  const [operations, setOperations] = useState([]);
+  const [operations, setOperations] = useState({
+    dailyStats: [],
+    monthlyStats: [],
+    yearlyStats: [],
+  });
+
   const [newOperation, setNewOperation] = useState({
     id: null,
     fechaHora: "",
@@ -53,10 +58,14 @@ const TradingTable = () => {
   // Cargar datos de Firebase al montar el componente
   useEffect(() => {
     if (stats) {
-      setOperations(stats.yearlyStats || []);
-      dispatch(setYearlyStats(stats.yearlyStats || []));
-      dispatch(setMonthlyStats(stats.monthlyStats || []));
+      setOperations({
+        dailyStats: stats.dailyStats || [],
+        monthlyStats: stats.monthlyStats || [],
+        yearlyStats: stats.yearlyStats || [],
+      });
       dispatch(setDailyStats(stats.dailyStats || []));
+      dispatch(setMonthlyStats(stats.monthlyStats || []));
+      dispatch(setYearlyStats(stats.yearlyStats || []));
     }
   }, [stats, dispatch]);
 
@@ -81,29 +90,98 @@ const TradingTable = () => {
     return true;
   };
 
+  // Función para clasificar la operación
+  const classifyOperation = (operation) => {
+    const fechaHora = DateTime.fromISO(operation.fechaHora); // Convertir la fecha a objeto DateTime
+
+    return {
+      dailyStats: {
+        date: fechaHora.toISODate(), // Fecha en formato YYYY-MM-DD
+        operations: [operation], // Agrega la operación a la lista del día
+      },
+      monthlyStats: {
+        month: fechaHora.toFormat("yyyy-MM"), // Mes en formato YYYY-MM
+        operations: [operation], // Agrega la operación a la lista del mes
+      },
+      yearlyStats: {
+        year: fechaHora.toFormat("yyyy"), // Año en formato YYYY
+        operations: [operation], // Agrega la operación a la lista del año
+      },
+    };
+  };
+
   // Agregar una nueva operación
   const addOperation = async () => {
+    // Validar la operación antes de continuar
     if (!validateOperation()) return;
 
+    // Crear una nueva operación con un ID único
     const operationWithId = { ...newOperation, id: Date.now() };
-    const updatedOperations = [...operations, operationWithId];
+
+    // Clasificar la operación en dailyStats, monthlyStats y yearlyStats
+    const classified = classifyOperation(operationWithId);
 
     // Actualizar el estado local
-    setOperations(updatedOperations);
+    const updatedDailyStats = [...operations.dailyStats];
+    const updatedMonthlyStats = [...operations.monthlyStats];
+    const updatedYearlyStats = [...operations.yearlyStats];
+
+    // Buscar si ya existe una entrada para el día, mes o año de la operación
+    const dailyIndex = updatedDailyStats.findIndex(
+      (entry) => entry.date === classified.dailyStats.date
+    );
+    const monthlyIndex = updatedMonthlyStats.findIndex(
+      (entry) => entry.month === classified.monthlyStats.month
+    );
+    const yearlyIndex = updatedYearlyStats.findIndex(
+      (entry) => entry.year === classified.yearlyStats.year
+    );
+
+    // Si existe una entrada para el día, agregar la operación a la lista existente
+    if (dailyIndex !== -1) {
+      updatedDailyStats[dailyIndex].operations.push(operationWithId);
+    } else {
+      // Si no existe, crear una nueva entrada para el día
+      updatedDailyStats.push(classified.dailyStats);
+    }
+
+    // Si existe una entrada para el mes, agregar la operación a la lista existente
+    if (monthlyIndex !== -1) {
+      updatedMonthlyStats[monthlyIndex].operations.push(operationWithId);
+    } else {
+      // Si no existe, crear una nueva entrada para el mes
+      updatedMonthlyStats.push(classified.monthlyStats);
+    }
+
+    // Si existe una entrada para el año, agregar la operación a la lista existente
+    if (yearlyIndex !== -1) {
+      updatedYearlyStats[yearlyIndex].operations.push(operationWithId);
+    } else {
+      // Si no existe, crear una nueva entrada para el año
+      updatedYearlyStats.push(classified.yearlyStats);
+    }
+
+    // Actualizar el estado local
+    setOperations({
+      dailyStats: updatedDailyStats,
+      monthlyStats: updatedMonthlyStats,
+      yearlyStats: updatedYearlyStats,
+    });
 
     // Actualizar el estado global
-    dispatch(setYearlyStats(updatedOperations));
-    dispatch(setMonthlyStats(updatedOperations));
-    dispatch(setDailyStats(updatedOperations));
+    dispatch(setDailyStats(updatedDailyStats));
+    dispatch(setMonthlyStats(updatedMonthlyStats));
+    dispatch(setYearlyStats(updatedYearlyStats));
 
     // Guardar en Firebase
     const stats = {
-      yearlyStats: updatedOperations,
-      monthlyStats: updatedOperations,
-      dailyStats: updatedOperations,
+      dailyStats: updatedDailyStats,
+      monthlyStats: updatedMonthlyStats,
+      yearlyStats: updatedYearlyStats,
     };
-    await saveStats({ userId, stats });
+    await saveStats(stats);
 
+    // Reiniciar el formulario
     setNewOperation({
       id: null,
       fechaHora: "",
@@ -122,11 +200,15 @@ const TradingTable = () => {
     });
   };
 
-
+  // Mostrar carga o error
   if (isLoading) return <p>Cargando...</p>;
   if (isError) return <p>Error al cargar los datos</p>;
 
-  const noData = !stats || !stats.yearlyStats || stats.yearlyStats.length === 0;
+  // Verificar si no hay datos
+  const noData =
+    !operations.dailyStats.length &&
+    !operations.monthlyStats.length &&
+    !operations.yearlyStats.length;
 
   return (
     <CContainer
@@ -284,23 +366,25 @@ const TradingTable = () => {
               <CTableDataCell colSpan={13}>No hay operaciones registradas</CTableDataCell>
             </CTableRow>
           ) : (
-            operations.map((op) => (
-              <CTableRow key={op.id} style={tableCellStyle}>
-                <CTableDataCell>{op.fechaHora}</CTableDataCell>
-                <CTableDataCell>{op.activo}</CTableDataCell>
-                <CTableDataCell>{op.tipoOperacion}</CTableDataCell>
-                <CTableDataCell>{op.cantidad}</CTableDataCell>
-                <CTableDataCell>{op.precioEntrada}</CTableDataCell>
-                <CTableDataCell>{op.precioSalida}</CTableDataCell>
-                <CTableDataCell>{op.stopLoss}</CTableDataCell>
-                <CTableDataCell>{op.takeProfit}</CTableDataCell>
-                <CTableDataCell>{op.gananciaPerdida}</CTableDataCell>
-                <CTableDataCell>{op.roi}</CTableDataCell>
-                <CTableDataCell>{op.razonEntrada}</CTableDataCell>
-                <CTableDataCell>{op.emocion}</CTableDataCell>
-                <CTableDataCell>{op.errores}</CTableDataCell>
-              </CTableRow>
-            ))
+            operations.yearlyStats.map((yearlyStat) =>
+              yearlyStat.operations.map((op) => (
+                <CTableRow key={op.id} style={tableCellStyle}>
+                  <CTableDataCell>{op.fechaHora}</CTableDataCell>
+                  <CTableDataCell>{op.activo}</CTableDataCell>
+                  <CTableDataCell>{op.tipoOperacion}</CTableDataCell>
+                  <CTableDataCell>{op.cantidad}</CTableDataCell>
+                  <CTableDataCell>{op.precioEntrada}</CTableDataCell>
+                  <CTableDataCell>{op.precioSalida}</CTableDataCell>
+                  <CTableDataCell>{op.stopLoss}</CTableDataCell>
+                  <CTableDataCell>{op.takeProfit}</CTableDataCell>
+                  <CTableDataCell>{op.gananciaPerdida}</CTableDataCell>
+                  <CTableDataCell>{op.roi}</CTableDataCell>
+                  <CTableDataCell>{op.razonEntrada}</CTableDataCell>
+                  <CTableDataCell>{op.emocion}</CTableDataCell>
+                  <CTableDataCell>{op.errores}</CTableDataCell>
+                </CTableRow>
+              ))
+            )
           )}
         </CTableBody>
       </CTable>
