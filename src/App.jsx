@@ -1,16 +1,17 @@
 import './App.css'
 import { NavBar } from './components/NavBar'
 import { Home } from './screen/Home'
-import Operations from './screen/Operations'
-import Performances from './screen/Performances'
+import TradingTable from './screen/TradingTable'
+
 
 function App() {
+
+
   return (
     <>
     <NavBar/>
     <Home/>
-    <Operations/>
-    <Performances/>
+    <TradingTable/>
     </>
   )
 }
