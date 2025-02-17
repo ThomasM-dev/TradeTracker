@@ -22,16 +22,13 @@ import {
   setMonthlyStats,
 } from "../../date/statsSlice.js";
 import { useGetStatsQuery, useSaveStatsMutation } from "../../date/firebaseApi.js";
-import { DateTime } from "luxon"; 
+import { DateTime } from "luxon";
 
 const TradingTable = () => {
   const dispatch = useDispatch();
-
-  
   const { data: stats, isLoading, isError } = useGetStatsQuery();
   const [saveStats] = useSaveStatsMutation();
 
-  
   const [operations, setOperations] = useState({
     dailyStats: [],
     monthlyStats: [],
@@ -55,7 +52,6 @@ const TradingTable = () => {
     errores: "",
   });
 
-  
   useEffect(() => {
     if (stats) {
       setOperations({
@@ -88,20 +84,25 @@ const TradingTable = () => {
   };
 
   const classifyOperation = (operation) => {
-    const fechaHora = DateTime.fromISO(operation.fechaHora); 
+    const fechaHora = DateTime.fromFormat(operation.fechaHora, "yyyy-MM-dd'T'HH:mm");
+
+    if (!fechaHora.isValid) {
+      console.error("Fecha no válida:", operation.fechaHora);
+      return null;
+    }
 
     return {
       dailyStats: {
         date: fechaHora.toISODate(),
-        operations: [operation], 
+        operations: [operation],
       },
       monthlyStats: {
-        month: fechaHora.toFormat("yyyy-MM"), 
-        operations: [operation], 
+        month: fechaHora.toFormat("yyyy-MM"),
+        operations: [operation],
       },
       yearlyStats: {
-        year: fechaHora.toFormat("yyyy"), 
-        operations: [operation], 
+        year: fechaHora.toFormat("yyyy"),
+        operations: [operation],
       },
     };
   };
@@ -110,51 +111,49 @@ const TradingTable = () => {
     if (!validateOperation()) return;
 
     const operationWithId = { ...newOperation, id: Date.now() };
-
     const classified = classifyOperation(operationWithId);
 
-    const updatedDailyStats = [...operations.dailyStats];
-    const updatedMonthlyStats = [...operations.monthlyStats];
-    const updatedYearlyStats = [...operations.yearlyStats];
+    if (!classified) {
+      alert("Error: La fecha no es válida.");
+      return;
+    }
 
-    const dailyIndex = updatedDailyStats.findIndex(
-      (entry) => entry.date === classified.dailyStats.date
-    );
-    const monthlyIndex = updatedMonthlyStats.findIndex(
-      (entry) => entry.month === classified.monthlyStats.month
-    );
-    const yearlyIndex = updatedYearlyStats.findIndex(
-      (entry) => entry.year === classified.yearlyStats.year
-    );
-
-    if (dailyIndex !== -1) {
-      updatedDailyStats[dailyIndex].operations.push(operationWithId);
+    // Hacer copias profundas de los arrays antes de modificar
+    const updatedDailyStats = JSON.parse(JSON.stringify(operations.dailyStats));
+    const dailyEntry = updatedDailyStats.find((entry) => entry.date === classified.dailyStats.date);
+    if (dailyEntry) {
+      dailyEntry.operations.push(operationWithId);
     } else {
       updatedDailyStats.push(classified.dailyStats);
     }
 
-    if (monthlyIndex !== -1) {
-      updatedMonthlyStats[monthlyIndex].operations.push(operationWithId);
+    const updatedMonthlyStats = JSON.parse(JSON.stringify(operations.monthlyStats));
+    const monthlyEntry = updatedMonthlyStats.find((entry) => entry.month === classified.monthlyStats.month);
+    if (monthlyEntry) {
+      monthlyEntry.operations.push(operationWithId);
     } else {
       updatedMonthlyStats.push(classified.monthlyStats);
     }
 
-    if (yearlyIndex !== -1) {
-      updatedYearlyStats[yearlyIndex].operations.push(operationWithId);
+    const updatedYearlyStats = JSON.parse(JSON.stringify(operations.yearlyStats));
+    const yearlyEntry = updatedYearlyStats.find((entry) => entry.year === classified.yearlyStats.year);
+    if (yearlyEntry) {
+      yearlyEntry.operations.push(operationWithId);
     } else {
       updatedYearlyStats.push(classified.yearlyStats);
     }
 
+    // Actualizar el estado y Redux
     setOperations({
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
       yearlyStats: updatedYearlyStats,
     });
-
     dispatch(setDailyStats(updatedDailyStats));
     dispatch(setMonthlyStats(updatedMonthlyStats));
     dispatch(setYearlyStats(updatedYearlyStats));
 
+    // Guardar en Firebase
     const stats = {
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
@@ -162,6 +161,7 @@ const TradingTable = () => {
     };
     await saveStats(stats);
 
+    // Reiniciar el formulario
     setNewOperation({
       id: null,
       fechaHora: "",
@@ -345,19 +345,19 @@ const TradingTable = () => {
             operations.yearlyStats.map((yearlyStat) =>
               yearlyStat.operations.map((op) => (
                 <CTableRow key={op.id} style={tableCellStyle}>
-                  <CTableDataCell>{op.fechaHora}</CTableDataCell>
-                  <CTableDataCell>{op.activo}</CTableDataCell>
-                  <CTableDataCell>{op.tipoOperacion}</CTableDataCell>
-                  <CTableDataCell>{op.cantidad}</CTableDataCell>
-                  <CTableDataCell>{op.precioEntrada}</CTableDataCell>
-                  <CTableDataCell>{op.precioSalida}</CTableDataCell>
-                  <CTableDataCell>{op.stopLoss}</CTableDataCell>
-                  <CTableDataCell>{op.takeProfit}</CTableDataCell>
-                  <CTableDataCell>{op.gananciaPerdida}</CTableDataCell>
-                  <CTableDataCell>{op.roi}</CTableDataCell>
-                  <CTableDataCell>{op.razonEntrada}</CTableDataCell>
-                  <CTableDataCell>{op.emocion}</CTableDataCell>
-                  <CTableDataCell>{op.errores}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.fechaHora}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.activo}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.tipoOperacion}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.cantidad}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.precioEntrada}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.precioSalida}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.stopLoss}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.takeProfit}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.gananciaPerdida}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.roi}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.razonEntrada}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.emocion}</CTableDataCell>
+                  <CTableDataCell style={tableCellStyle}>{op.errores}</CTableDataCell>
                 </CTableRow>
               ))
             )
