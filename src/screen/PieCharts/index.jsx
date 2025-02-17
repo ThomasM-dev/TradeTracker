@@ -34,6 +34,11 @@ const PieCharts = () => {
     yearly: [],
   });
 
+  // Estado para el capital inicial
+  const [capitalInicial, setCapitalInicial] = useState(1000); // Valor por defecto de 1000
+  const [capitalFinal, setCapitalFinal] = useState(1000); // Capital final
+  const [rendimientoCapital, setRendimientoCapital] = useState(0); // Rendimiento en porcentaje
+
   // Función para generar los datos del gráfico
   const generateChartData = (operations) => {
     if (operations.length === 0) {
@@ -70,8 +75,8 @@ const PieCharts = () => {
       datasets: [
         {
           data: [gainPercentage, lossPercentage], // Porcentajes de ganancias y pérdidas
-          backgroundColor: ["#33FF57", "#e00138"], // Verde para ganancias, Rojo para pérdidas
-          hoverBackgroundColor: ["#163f10", "#650822"],
+          backgroundColor: ["#33FF57", "#FF5733"], // Verde para ganancias, Rojo para pérdidas
+          hoverBackgroundColor: ["#33FF57", "#FF5733"],
         },
       ],
     };
@@ -96,6 +101,12 @@ const PieCharts = () => {
     });
   };
 
+  // Calcular rendimiento basado en el capital
+  const calcularRendimientoCapital = (initial, final) => {
+    const rendimiento = ((final - initial) / initial) * 100;
+    return rendimiento.toFixed(2);
+  };
+
   // Actualizar el estado cuando los datos cambien
   useEffect(() => {
     if (
@@ -107,8 +118,16 @@ const PieCharts = () => {
         monthly: filterOperations(stats, "monthly"),
         yearly: filterOperations(stats, "yearly"),
       });
+
+      // Calcular el capital final basándonos en las operaciones
+      const capitalFinalCalculado = operations.monthly.reduce((capital, op) => capital + parseFloat(op.gananciaPerdida), capitalInicial);
+      setCapitalFinal(capitalFinalCalculado);
+
+      // Calcular el rendimiento en base al capital
+      const rendimiento = calcularRendimientoCapital(capitalInicial, capitalFinalCalculado);
+      setRendimientoCapital(rendimiento);
     }
-  }, [stats]);
+  }, [stats, capitalInicial, operations]);
 
   // Mostrar mensaje de carga o error
   if (isLoading) return <p>Cargando...</p>;
@@ -117,6 +136,20 @@ const PieCharts = () => {
   return (
     <div className="pie-charts container">
       <CRow>
+        {/* Campo de input para el capital inicial */}
+        <CCol sm="12">
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <label htmlFor="capitalInicial">Capital Inicial: </label>
+            <input
+              id="capitalInicial"
+              type="number"
+              value={capitalInicial}
+              onChange={(e) => setCapitalInicial(Number(e.target.value))}
+              style={{ width: "150px", padding: "5px", marginLeft: "10px" }}
+            />
+          </div>
+        </CCol>
+
         {/* Gráfico Diario */}
         <CCol sm="12" md="4">
           <CCard className="mb-4">
@@ -190,6 +223,18 @@ const PieCharts = () => {
               )}
             </CCardBody>
           </CCard>
+        </CCol>
+
+        {/* Mostrar el rendimiento basado en el capital */}
+        <CCol sm="12">
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <h4>Rendimiento basado en el capital</h4>
+            <p>
+              Capital Inicial: {capitalInicial} <br />
+              Capital Final: {capitalFinal} <br />
+              Rendimiento: {rendimientoCapital}%
+            </p>
+          </div>
         </CCol>
       </CRow>
     </div>
