@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Pie } from "react-chartjs-2";
 import { CCard, CCardBody, CRow, CCol } from "@coreui/react";
 import {
@@ -24,58 +24,74 @@ ChartJS.register(
   LinearScale
 );
 
+const PieChartCard = ({ title, data, noDataMessage }) => (
+  <CCol sm="12" md="4">
+    <CCard className="mb-4">
+      <h4
+        style={{
+          color: "#e0003d",
+          backgroundColor: "#0c161c",
+          textAlign: "center",
+          padding: "10px",
+          borderRadius: "5px",
+        }}
+      >
+        {title}
+      </h4>
+      <CCardBody>
+        <Pie data={data} />
+        {data.datasets[0].data.every(value => value === 0) && (
+          <p style={{ textAlign: "center", color: "#888" }}>{noDataMessage}</p>
+        )}
+      </CCardBody>
+    </CCard>
+  </CCol>
+);
+
 const PieCharts = () => {
   const { data: stats = {}, error, isLoading } = useGetStatsQuery();
+  const [capitalInicial, setCapitalInicial] = useState(100);
+  const [showResults, setShowResults] = useState(false);
 
-  // Estado para almacenar las operaciones filtradas por período
-  const [operations, setOperations] = useState({
-    daily: [],
-    monthly: [],
-    yearly: [],
-  });
+  // Estados para almacenar los rendimientos y capitales finales
+  const [rendimientoDiario, setRendimientoDiario] = useState(0);
+  const [capitalFinalDiario, setCapitalFinalDiario] = useState(100);
 
-  // Estado para el capital inicial
-  const [capitalInicial, setCapitalInicial] = useState(1000); // Valor por defecto de 1000
-  const [capitalFinal, setCapitalFinal] = useState(1000); // Capital final
-  const [rendimientoCapital, setRendimientoCapital] = useState(0); // Rendimiento en porcentaje
+  const [rendimientoMensual, setRendimientoMensual] = useState(0);
+  const [capitalFinalMensual, setCapitalFinalMensual] = useState(100);
+
+  const [rendimientoAnual, setRendimientoAnual] = useState(0);
+  const [capitalFinalAnual, setCapitalFinalAnual] = useState(100);
 
   // Función para generar los datos del gráfico
   const generateChartData = (operations) => {
-    if (operations.length === 0) {
+    if (!operations.length) {
       return {
         labels: ["No hay operaciones"],
         datasets: [
           {
-            data: [1], // Un solo valor para mostrar un gráfico vacío
-            backgroundColor: ["#CCCCCC"], // Gris claro para indicar ausencia de datos
+            data: [1],
+            backgroundColor: ["#CCCCCC"],
             hoverBackgroundColor: ["#CCCCCC"],
           },
         ],
       };
     }
-
-    // Calcular el total de ganancias y pérdidas
     const totalGains = operations
       .filter((op) => parseFloat(op.gananciaPerdida) > 0)
       .reduce((sum, op) => sum + parseFloat(op.gananciaPerdida), 0);
-
     const totalLosses = operations
       .filter((op) => parseFloat(op.gananciaPerdida) < 0)
       .reduce((sum, op) => sum + Math.abs(parseFloat(op.gananciaPerdida)), 0);
-
-    // Calcular el total absoluto
     const totalAbsolute = totalGains + totalLosses;
-
-    // Calcular los porcentajes
     const gainPercentage = totalAbsolute > 0 ? (totalGains / totalAbsolute) * 100 : 0;
     const lossPercentage = totalAbsolute > 0 ? (totalLosses / totalAbsolute) * 100 : 0;
-
     return {
       labels: [`Ganancias (${gainPercentage.toFixed(2)}%)`, `Pérdidas (${lossPercentage.toFixed(2)}%)`],
       datasets: [
         {
-          data: [gainPercentage, lossPercentage], // Porcentajes de ganancias y pérdidas
-          backgroundColor: ["#33FF57", "#FF5733"], // Verde para ganancias, Rojo para pérdidas
+          data: [gainPercentage, lossPercentage],
+          backgroundColor: ["#33FF57", "#FF5733"],
           hoverBackgroundColor: ["#33FF57", "#FF5733"],
         },
       ],
@@ -83,159 +99,129 @@ const PieCharts = () => {
   };
 
   // Filtrar operaciones por período (diario, mensual, anual)
-  const filterOperations = (stats, period) => {
-    if (!stats || !stats[`${period}Stats`]) {
-      return [];
-    }
-
+  const filterOperations = useMemo(() => (period) => {
     const dateFormat = {
       daily: "yyyy-MM-dd",
       monthly: "yyyy-MM",
       yearly: "yyyy",
     };
-
     const currentPeriod = DateTime.local().toFormat(dateFormat[period]);
-    return stats[`${period}Stats`].flatMap((stat) => {
+    return stats[`${period}Stats`] ? stats[`${period}Stats`].flatMap((stat) => {
       const statPeriod = DateTime.fromISO(stat.date || stat.month || stat.year).toFormat(dateFormat[period]);
       return statPeriod === currentPeriod ? stat.operations : [];
-    });
-  };
+    }) : [];
+  }, [stats]);
 
-  // Calcular rendimiento basado en el capital
-  const calcularRendimientoCapital = (initial, final) => {
-    const rendimiento = ((final - initial) / initial) * 100;
-    return rendimiento.toFixed(2);
+  // Calcular rendimiento y capital final basado en el capital inicial y las operaciones
+  const calcularRendimientoYCapitalFinal = (initial, operations) => {
+    const finalCapital = operations.reduce(
+      (capital, op) => capital + parseFloat(op.gananciaPerdida),
+      initial
+    );
+    const rendimiento = ((finalCapital - initial) / initial) * 100;
+    return {
+      rendimiento: rendimiento.toFixed(2),
+      capitalFinal: finalCapital.toFixed(2),
+    };
   };
 
   // Actualizar el estado cuando los datos cambien
   useEffect(() => {
-    if (
-      stats &&
-      (stats.dailyStats || stats.monthlyStats || stats.yearlyStats)
-    ) {
-      setOperations({
-        daily: filterOperations(stats, "daily"),
-        monthly: filterOperations(stats, "monthly"),
-        yearly: filterOperations(stats, "yearly"),
-      });
+    if (stats) {
+      const dailyOps = filterOperations("daily");
+      const monthlyOps = filterOperations("monthly");
+      const yearlyOps = filterOperations("yearly");
 
-      // Calcular el capital final basándonos en las operaciones
-      const capitalFinalCalculado = operations.monthly.reduce((capital, op) => capital + parseFloat(op.gananciaPerdida), capitalInicial);
-      setCapitalFinal(capitalFinalCalculado);
+      // Calcular rendimientos y capitales finales para cada período
+      const resultadoDiario = calcularRendimientoYCapitalFinal(capitalInicial, dailyOps);
+      const resultadoMensual = calcularRendimientoYCapitalFinal(capitalInicial, monthlyOps);
+      const resultadoAnual = calcularRendimientoYCapitalFinal(capitalInicial, yearlyOps);
 
-      // Calcular el rendimiento en base al capital
-      const rendimiento = calcularRendimientoCapital(capitalInicial, capitalFinalCalculado);
-      setRendimientoCapital(rendimiento);
+      setRendimientoDiario(resultadoDiario.rendimiento);
+      setCapitalFinalDiario(resultadoDiario.capitalFinal);
+
+      setRendimientoMensual(resultadoMensual.rendimiento);
+      setCapitalFinalMensual(resultadoMensual.capitalFinal);
+
+      setRendimientoAnual(resultadoAnual.rendimiento);
+      setCapitalFinalAnual(resultadoAnual.capitalFinal);
     }
-  }, [stats, capitalInicial, operations]);
+  }, [stats, capitalInicial, filterOperations]);
 
-  // Mostrar mensaje de carga o error
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="pie-charts container">
+    <div className="pie-charts container mb-5">
       <CRow>
-        {/* Campo de input para el capital inicial */}
+        <h3 className="text-center mt-5 titleComponents">Panel de Rendimiento y Análisis de Operaciones</h3>
         <CCol sm="12">
-          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          <div style={{ textAlign: "center", marginBottom: "20px", color: "#e0003d" }}>
             <label htmlFor="capitalInicial">Capital Inicial: </label>
             <input
               id="capitalInicial"
               type="number"
               value={capitalInicial}
-              onChange={(e) => setCapitalInicial(Number(e.target.value))}
-              style={{ width: "150px", padding: "5px", marginLeft: "10px" }}
+              onChange={(e) => {
+                const value = e.target.value.trim() === "" ? 100 : Number(e.target.value);
+                setCapitalInicial(value);
+              }}
+              style={{ width: "150px", padding: "5px", marginLeft: "10px", color: "#e0003d" }}
             />
           </div>
         </CCol>
-
-        {/* Gráfico Diario */}
-        <CCol sm="12" md="4">
-          <CCard className="mb-4">
-            <h4
-              style={{
-                color: "#df0136",
-                backgroundColor: "#0a161d",
-                textAlign: "center",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              Rendimiento Diario
-            </h4>
-            <CCardBody>
-              <Pie data={generateChartData(operations.daily)} />
-              {operations.daily.length === 0 && (
-                <p style={{ textAlign: "center", color: "#888" }}>
-                  No hay operaciones en el día de hoy.
+        <CCol sm="12" style={{ textAlign: "center" }}>
+          <button
+            onClick={() => setShowResults(true)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#e0003d",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            Mostrar Resultados
+          </button>
+        </CCol>
+        {showResults && (
+          <>
+            <PieChartCard
+              title="Rendimiento Diario"
+              data={generateChartData(filterOperations("daily"))}
+              noDataMessage="No hay operaciones en el día de hoy."
+            />
+            <PieChartCard
+              title="Rendimiento Mensual"
+              data={generateChartData(filterOperations("monthly"))}
+              noDataMessage="No hay operaciones en el mes actual."
+            />
+            <PieChartCard
+              title="Rendimiento Anual"
+              data={generateChartData(filterOperations("yearly"))}
+              noDataMessage="No hay operaciones en el año actual."
+            />
+            <CCol sm="12">
+              <div style={{ textAlign: "center", marginTop: "20px", color: "#e1003a" }}>
+                <h4>Rendimiento basado en el capital</h4>
+                <p style={{color: "#e1003a"}}>
+                  Capital Inicial: {capitalInicial} <br />
+                  <strong>Diario:</strong> <br />
+                  &nbsp;&nbsp;Capital Final: {capitalFinalDiario} <br />
+                  &nbsp;&nbsp;Rendimiento: {rendimientoDiario}% <br />
+                  <strong>Mensual:</strong> <br />
+                  &nbsp;&nbsp;Capital Final: {capitalFinalMensual} <br />
+                  &nbsp;&nbsp;Rendimiento: {rendimientoMensual}% <br />
+                  <strong>Anual:</strong> <br />
+                  &nbsp;&nbsp;Capital Final: {capitalFinalAnual} <br />
+                  &nbsp;&nbsp;Rendimiento: {rendimientoAnual}%
                 </p>
-              )}
-            </CCardBody>
-          </CCard>
-        </CCol>
-
-        {/* Gráfico Mensual */}
-        <CCol sm="12" md="4">
-          <CCard className="mb-4">
-            <h4
-              style={{
-                color: "#df0136",
-                backgroundColor: "#0a161d",
-                textAlign: "center",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              Rendimiento Mensual
-            </h4>
-            <CCardBody>
-              <Pie data={generateChartData(operations.monthly)} />
-              {operations.monthly.length === 0 && (
-                <p style={{ textAlign: "center", color: "#888" }}>
-                  No hay operaciones en el mes actual.
-                </p>
-              )}
-            </CCardBody>
-          </CCard>
-        </CCol>
-
-        {/* Gráfico Anual */}
-        <CCol sm="12" md="4">
-          <CCard className="mb-4">
-            <h4
-              style={{
-                color: "#df0136",
-                backgroundColor: "#0a161d",
-                textAlign: "center",
-                padding: "10px",
-                borderRadius: "5px",
-              }}
-            >
-              Rendimiento Anual
-            </h4>
-            <CCardBody>
-              <Pie data={generateChartData(operations.yearly)} />
-              {operations.yearly.length === 0 && (
-                <p style={{ textAlign: "center", color: "#888" }}>
-                  No hay operaciones en el año actual.
-                </p>
-              )}
-            </CCardBody>
-          </CCard>
-        </CCol>
-
-        {/* Mostrar el rendimiento basado en el capital */}
-        <CCol sm="12">
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <h4>Rendimiento basado en el capital</h4>
-            <p>
-              Capital Inicial: {capitalInicial} <br />
-              Capital Final: {capitalFinal} <br />
-              Rendimiento: {rendimientoCapital}%
-            </p>
-          </div>
-        </CCol>
+              </div>
+            </CCol>
+          </>
+        )}
       </CRow>
     </div>
   );

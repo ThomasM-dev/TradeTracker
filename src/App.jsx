@@ -8,12 +8,22 @@ import InterestCalculator from "./screen/InterestCalculator"
 import ROICalculator from './screen/ROICalculator'
 import RatioCalculator from "./screen/RatioCalculator"
 import InvestmentCalculator from "./screen/InvestmentCalculator"
+import TradingPlan from "./screen/TradingPlan"
+import { useGetStatsQuery } from './date/firebaseApi'
+import Spinner from "./components/Spinner"
 
 function App() {
+  const {data, isLoading} = useGetStatsQuery()
+  if (isLoading) {
+    return (
+      <Spinner/>
+    )
+  }
   return (
     <>
     <NavBar/>
     <Home/>
+    <TradingPlan/>
     <TradingTable/>
     <PieCharts/>
     <InvestmentCalculator/>
