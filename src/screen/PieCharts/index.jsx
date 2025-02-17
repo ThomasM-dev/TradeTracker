@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Pie } from 'react-chartjs-2';
-import { CCard, CCardBody, CCardHeader, CRow, CCol } from '@coreui/react';
+import React, { useEffect, useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { CCard, CCardBody, CCardHeader, CRow, CCol } from "@coreui/react";
 import {
   Chart as ChartJS,
   Title,
@@ -9,35 +9,50 @@ import {
   ArcElement,
   CategoryScale,
   LinearScale,
-} from 'chart.js';
-import { DateTime } from 'luxon';
-import './PieCharts.css';
-import { useGetStatsQuery } from '../../date/firebaseApi';
+} from "chart.js";
+import { DateTime } from "luxon";
+import "./PieCharts.css";
+import { useGetStatsQuery } from "../../date/firebaseApi";
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  CategoryScale,
+  LinearScale
+);
 
 const PieCharts = () => {
   const { data: stats = {}, error, isLoading } = useGetStatsQuery();
-
-  const [operations, setOperations] = useState({ daily: [], monthly: [], yearly: [] });
+  
+  const [operations, setOperations] = useState({
+    daily: [],
+    monthly: [],
+    yearly: [],
+  });
 
   const generateChartData = (operations) => {
     if (operations.length === 0) {
       return {
-        labels: ['No hay operaciones'],
+        labels: ["No hay operaciones"],
         datasets: [
           {
             data: [1],
-            backgroundColor: ['#FF0000'],
-            hoverBackgroundColor: ['#FF0000'],
+            backgroundColor: ["#FF0000"],
+            hoverBackgroundColor: ["#FF0000"],
           },
         ],
       };
     }
 
     const gains = operations.map((op) => op.gananciaPerdida);
-    const labels = operations.map((op) => `${op.activo} ($${op.gananciaPerdida})`);
-    const colors = operations.map(() => `#${Math.floor(Math.random() * 16777215).toString(16)}`);
+    const labels = operations.map(
+      (op) => `${op.activo} ($${op.gananciaPerdida})`
+    );
+    const colors = operations.map(
+      () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
+    );
 
     return {
       labels,
@@ -57,9 +72,9 @@ const PieCharts = () => {
     }
 
     const dateFormat = {
-      daily: 'yyyy-MM-dd',
-      monthly: 'yyyy-MM',
-      yearly: 'yyyy',
+      daily: "yyyy-MM-dd",
+      monthly: "yyyy-MM",
+      yearly: "yyyy",
     };
 
     const currentPeriod = DateTime.local().toFormat(dateFormat[period]);
@@ -70,11 +85,14 @@ const PieCharts = () => {
   };
 
   useEffect(() => {
-    if (stats && (stats.dailyStats || stats.monthlyStats || stats.yearlyStats)) {
+    if (
+      stats &&
+      (stats.dailyStats || stats.monthlyStats || stats.yearlyStats)
+    ) {
       setOperations({
-        daily: filterOperations(stats, 'daily'),
-        monthly: filterOperations(stats, 'monthly'),
-        yearly: filterOperations(stats, 'yearly'),
+        daily: filterOperations(stats, "daily"),
+        monthly: filterOperations(stats, "monthly"),
+        yearly: filterOperations(stats, "yearly"),
       });
     }
   }, [stats]);
@@ -85,24 +103,42 @@ const PieCharts = () => {
   return (
     <div className="pie-charts container">
       <CRow>
-        {/* Gráfico Diario */}
         <CCol sm="12" md="4">
           <CCard className="mb-4">
-            <CCardHeader>Rendimiento Diario</CCardHeader>
+            <h4
+              style={{
+                color: "#df0136",
+                backgroundColor: "#0a161d",
+                textAlign: "center",
+              }}
+            >
+              Rendimiento Diario
+            </h4>
             <CCardBody>
               <Pie data={generateChartData(operations.daily)} />
-              {operations.daily.length === 0 && <p>No hay operaciones en el día de hoy.</p>}
+              {operations.daily.length === 0 && (
+                <p>No hay operaciones en el día de hoy.</p>
+              )}
             </CCardBody>
           </CCard>
         </CCol>
 
-        {/* Gráfico Mensual */}
         <CCol sm="12" md="4">
           <CCard className="mb-4">
-            <CCardHeader>Rendimiento Mensual</CCardHeader>
+            <h4
+              style={{
+                color: "#df0136",
+                backgroundColor: "#0a161d",
+                textAlign: "center",
+              }}
+            >
+              Rendimiento Mensual
+            </h4>
             <CCardBody>
               <Pie data={generateChartData(operations.monthly)} />
-              {operations.monthly.length === 0 && <p>No hay operaciones en el mes actual.</p>}
+              {operations.monthly.length === 0 && (
+                <p>No hay operaciones en el mes actual.</p>
+              )}
             </CCardBody>
           </CCard>
         </CCol>
@@ -110,10 +146,20 @@ const PieCharts = () => {
         {/* Gráfico Anual */}
         <CCol sm="12" md="4">
           <CCard className="mb-4">
-            <CCardHeader>Rendimiento Anual</CCardHeader>
+            <h4
+              style={{
+                color: "#df0136",
+                backgroundColor: "#0a161d",
+                textAlign: "center",
+              }}
+            >
+              Rendimiento Anual
+            </h4>
             <CCardBody>
               <Pie data={generateChartData(operations.yearly)} />
-              {operations.yearly.length === 0 && <p>No hay operaciones en el año actual.</p>}
+              {operations.yearly.length === 0 && (
+                <p>No hay operaciones en el año actual.</p>
+              )}
             </CCardBody>
           </CCard>
         </CCol>

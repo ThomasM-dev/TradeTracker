@@ -44,7 +44,7 @@ const ROICalculator = () => {
   };
 
   return (
-    <CRow className="d-flex justify-content-center mb-5 mt-5">
+    <CRow className="d-flex justify-content-center mb-5 mb-5">
       <CCol sm="12" md="6" lg="4">
         <CCard style={{ backgroundColor: "#0c161c", color: "#df0136" }}>
           <h3 className="text-center">Calculadora de ROI</h3>

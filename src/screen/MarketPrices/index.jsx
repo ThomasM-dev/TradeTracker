@@ -59,7 +59,7 @@ const MarketSchedules = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <CCard>
-                <CCardHeader className="text-center">
+                <CCardHeader style={{color: "#e0003d", backgroundColor: "#0c161c", fontSize: "20px"}} className="text-center">
                   <Flag code={market.countryCode} style={{ width: 20, height: 15, marginRight: 10 }} />
                   {market.market} ({market.openTime} - {market.closeTime} hora local)
                 </CCardHeader>

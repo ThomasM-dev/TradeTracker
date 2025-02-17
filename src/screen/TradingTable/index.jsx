@@ -22,16 +22,16 @@ import {
   setMonthlyStats,
 } from "../../date/statsSlice.js";
 import { useGetStatsQuery, useSaveStatsMutation } from "../../date/firebaseApi.js";
-import { DateTime } from "luxon"; // Importa Luxon para manejar fechas
+import { DateTime } from "luxon"; 
 
 const TradingTable = () => {
   const dispatch = useDispatch();
 
-  // Obtener datos de Firebase usando RTK Query
+  
   const { data: stats, isLoading, isError } = useGetStatsQuery();
   const [saveStats] = useSaveStatsMutation();
 
-  // Estado local para las operaciones
+  
   const [operations, setOperations] = useState({
     dailyStats: [],
     monthlyStats: [],
@@ -55,7 +55,7 @@ const TradingTable = () => {
     errores: "",
   });
 
-  // Cargar datos de Firebase al montar el componente
+  
   useEffect(() => {
     if (stats) {
       setOperations({
@@ -69,18 +69,15 @@ const TradingTable = () => {
     }
   }, [stats, dispatch]);
 
-  // Estilos
   const cardStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
   const inputStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
   const tableCellStyle = { backgroundColor: "#0c161c", color: "#e0003d" };
 
-  // Manejar cambios en los inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewOperation({ ...newOperation, [name]: value });
   };
 
-  // Validar la operación
   const validateOperation = () => {
     const { fechaHora, activo, tipoOperacion } = newOperation;
     if (!fechaHora || !activo || !tipoOperacion) {
@@ -90,43 +87,36 @@ const TradingTable = () => {
     return true;
   };
 
-  // Función para clasificar la operación
   const classifyOperation = (operation) => {
-    const fechaHora = DateTime.fromISO(operation.fechaHora); // Convertir la fecha a objeto DateTime
+    const fechaHora = DateTime.fromISO(operation.fechaHora); 
 
     return {
       dailyStats: {
-        date: fechaHora.toISODate(), // Fecha en formato YYYY-MM-DD
-        operations: [operation], // Agrega la operación a la lista del día
+        date: fechaHora.toISODate(),
+        operations: [operation], 
       },
       monthlyStats: {
-        month: fechaHora.toFormat("yyyy-MM"), // Mes en formato YYYY-MM
-        operations: [operation], // Agrega la operación a la lista del mes
+        month: fechaHora.toFormat("yyyy-MM"), 
+        operations: [operation], 
       },
       yearlyStats: {
-        year: fechaHora.toFormat("yyyy"), // Año en formato YYYY
-        operations: [operation], // Agrega la operación a la lista del año
+        year: fechaHora.toFormat("yyyy"), 
+        operations: [operation], 
       },
     };
   };
 
-  // Agregar una nueva operación
   const addOperation = async () => {
-    // Validar la operación antes de continuar
     if (!validateOperation()) return;
 
-    // Crear una nueva operación con un ID único
     const operationWithId = { ...newOperation, id: Date.now() };
 
-    // Clasificar la operación en dailyStats, monthlyStats y yearlyStats
     const classified = classifyOperation(operationWithId);
 
-    // Actualizar el estado local
     const updatedDailyStats = [...operations.dailyStats];
     const updatedMonthlyStats = [...operations.monthlyStats];
     const updatedYearlyStats = [...operations.yearlyStats];
 
-    // Buscar si ya existe una entrada para el día, mes o año de la operación
     const dailyIndex = updatedDailyStats.findIndex(
       (entry) => entry.date === classified.dailyStats.date
     );
@@ -137,43 +127,34 @@ const TradingTable = () => {
       (entry) => entry.year === classified.yearlyStats.year
     );
 
-    // Si existe una entrada para el día, agregar la operación a la lista existente
     if (dailyIndex !== -1) {
       updatedDailyStats[dailyIndex].operations.push(operationWithId);
     } else {
-      // Si no existe, crear una nueva entrada para el día
       updatedDailyStats.push(classified.dailyStats);
     }
 
-    // Si existe una entrada para el mes, agregar la operación a la lista existente
     if (monthlyIndex !== -1) {
       updatedMonthlyStats[monthlyIndex].operations.push(operationWithId);
     } else {
-      // Si no existe, crear una nueva entrada para el mes
       updatedMonthlyStats.push(classified.monthlyStats);
     }
 
-    // Si existe una entrada para el año, agregar la operación a la lista existente
     if (yearlyIndex !== -1) {
       updatedYearlyStats[yearlyIndex].operations.push(operationWithId);
     } else {
-      // Si no existe, crear una nueva entrada para el año
       updatedYearlyStats.push(classified.yearlyStats);
     }
 
-    // Actualizar el estado local
     setOperations({
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
       yearlyStats: updatedYearlyStats,
     });
 
-    // Actualizar el estado global
     dispatch(setDailyStats(updatedDailyStats));
     dispatch(setMonthlyStats(updatedMonthlyStats));
     dispatch(setYearlyStats(updatedYearlyStats));
 
-    // Guardar en Firebase
     const stats = {
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
@@ -181,7 +162,6 @@ const TradingTable = () => {
     };
     await saveStats(stats);
 
-    // Reiniciar el formulario
     setNewOperation({
       id: null,
       fechaHora: "",
@@ -200,11 +180,9 @@ const TradingTable = () => {
     });
   };
 
-  // Mostrar carga o error
   if (isLoading) return <p>Cargando...</p>;
   if (isError) return <p>Error al cargar los datos</p>;
 
-  // Verificar si no hay datos
   const noData =
     !operations.dailyStats.length &&
     !operations.monthlyStats.length &&
@@ -246,8 +224,6 @@ const TradingTable = () => {
               onChange={handleInputChange}
             >
               <option value="">Selecciona</option>
-              <option value="Compra">Compra</option>
-              <option value="Venta">Venta</option>
               <option value="Long">Long</option>
               <option value="Short">Short</option>
             </CFormSelect>
@@ -363,7 +339,7 @@ const TradingTable = () => {
         <CTableBody style={tableCellStyle}>
           {noData ? (
             <CTableRow>
-              <CTableDataCell colSpan={13}>No hay operaciones registradas</CTableDataCell>
+              <CTableDataCell style={tableCellStyle} colSpan={13}>No hay operaciones registradas</CTableDataCell>
             </CTableRow>
           ) : (
             operations.yearlyStats.map((yearlyStat) =>
