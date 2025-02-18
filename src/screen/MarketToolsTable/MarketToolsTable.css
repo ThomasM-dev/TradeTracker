@@ -1,18 +1,76 @@
-.market-tools-table .table-responsive {
-    overflow-x: auto;
-  }
-  
-  .market-tools-table table {
+/* MarketToolsTable.css */
+.container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
     width: 100%;
-    table-layout: fixed;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1140px;
   }
   
-  .market-tools-table a {
+  .container-fluid {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .container-fluid {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .container {
+      max-width: 1140px;
+    }
+  }
+  
+  .table-header {
+    text-align: center;
+    background-color: #0c161c;
     color: #df0136;
-    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
   }
   
-  .market-tools-table a:hover {
-    text-decoration: underline;
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a242f;
+    color: #a4a4a4;
   }
   
+    
+  .description-cell {
+    color: #666; 
+    white-space: pre-line;
+    text-align: left;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #0c161c;
+    color: #a4a4a4;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pagination-button.active {
+    background-color: #df0136;
+    color: #a4a4a4;
+  }
