@@ -46,7 +46,7 @@ const MarketPrices = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='container' id='horarios'>
       <h3 className="text-center mb-4" style={styles}>Horarios de Apertura y Cierre de Mercados</h3>
       <CRow>
         {markets.map((market, index) => (

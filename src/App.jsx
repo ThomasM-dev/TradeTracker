@@ -11,6 +11,7 @@ import InvestmentCalculator from "./screen/InvestmentCalculator"
 import TradingPlan from "./screen/TradingPlan"
 import { useGetStatsQuery } from './date/firebaseApi'
 import Spinner from "./components/Spinner"
+import MarketToolsTable from './screen/MarketToolsTable'
 
 function App() {
   const {data, isLoading} = useGetStatsQuery()
@@ -30,6 +31,7 @@ function App() {
     <RatioCalculator/>
     <InterestCalculator/>
     <ROICalculator/>
+    <MarketToolsTable/>
     <MarketPrices/>
     </>
   )

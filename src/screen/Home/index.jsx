@@ -4,11 +4,11 @@ import '@coreui/coreui/dist/css/coreui.min.css';
 import "./Home.css"
 export const Home = () => {
   return (
-    <div className="home-introduction">
+    <div className="home-introduction" id="home">
       <CContainer className="mt-5">
         <CRow className="align-items-center">
           <CCol lg={6}>
-            <h2 className="text-center text-light">Bienvenido a TradeTracker</h2>
+            <h2 className="text-center" style={{color: "#df0136"}}>Bienvenido a TradeTracker</h2>
             <p className="text-center text-light">
               ¡Hola! Soy Thomas, y este sitio es mi herramienta personal para llevar un control más eficiente de mis operaciones de trading. Aquí registro todas mis transacciones, analizo mis ganancias y pérdidas, y visualizo gráficos para tomar decisiones más informadas.
             </p>
@@ -18,7 +18,7 @@ export const Home = () => {
           </CCol>
           <CCol lg={6}>
             <img
-              src="/bg-home.webp"
+              src="/imgPresentation.jpg"
               alt="Imagen de Introducción"
               className="img-fluid rounded"
             />

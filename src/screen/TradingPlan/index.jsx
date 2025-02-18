@@ -17,6 +17,8 @@ const TradingPlan = () => {
   const [riskPercentage, setRiskPercentage] = useState(1);
   const [stopLoss, setStopLoss] = useState(0.5);
   const [takeProfit, setTakeProfit] = useState(1.0);
+  const [spread, setSpread] = useState(0.1); // Nuevo estado para el spread
+  const [commission, setCommission] = useState(0); // Nuevo estado para las comisiones
 
   // Función para calcular el riesgo por operación
   const calculateRiskPerTrade = () => {
@@ -26,12 +28,12 @@ const TradingPlan = () => {
   // Función para calcular el tamaño de la posición
   const calculatePositionSize = () => {
     if (stopLoss === 0) return 0; // Evitar división por cero
-    return calculateRiskPerTrade() / stopLoss;
+    return calculateRiskPerTrade() / (stopLoss + spread + commission);
   };
 
   // Función para calcular el beneficio esperado
   const calculateProfitPerTrade = () => {
-    return calculatePositionSize() * takeProfit;
+    return calculatePositionSize() * (takeProfit - spread - commission);
   };
 
   // Manejadores de cambio para los inputs
@@ -53,6 +55,16 @@ const TradingPlan = () => {
   const handleTakeProfitChange = (e) => {
     const value = parseFloat(e.target.value);
     if (!isNaN(value)) setTakeProfit(value);
+  };
+
+  const handleSpreadChange = (e) => {
+    const value = parseFloat(e.target.value);
+    if (!isNaN(value)) setSpread(value);
+  };
+
+  const handleCommissionChange = (e) => {
+    const value = parseFloat(e.target.value);
+    if (!isNaN(value)) setCommission(value);
   };
 
   return (
@@ -123,6 +135,28 @@ const TradingPlan = () => {
                   style={{ backgroundColor: '#0a161d', color: '#fff', border: '1px solid #e20138' }}
                 />
               </div>
+              <div>
+                <label>Spread ($): </label>
+                <CFormInput
+                  type="number"
+                  value={spread}
+                  onChange={handleSpreadChange}
+                  step="0.01"
+                  className="mb-3"
+                  style={{ backgroundColor: '#0a161d', color: '#fff', border: '1px solid #e20138' }}
+                />
+              </div>
+              <div>
+                <label>Comisiones ($): </label>
+                <CFormInput
+                  type="number"
+                  value={commission}
+                  onChange={handleCommissionChange}
+                  step="0.01"
+                  className="mb-3"
+                  style={{ backgroundColor: '#0a161d', color: '#fff', border: '1px solid #e20138' }}
+                />
+              </div>
               <h5 style={{ color: '#e20138' }}>Detalles de la Operación</h5>
               <ul>
                 <li>
@@ -137,6 +171,12 @@ const TradingPlan = () => {
                 </li>
                 <li>
                   <strong>Take Profit:</strong> {takeProfit}$ por acción
+                </li>
+                <li>
+                  <strong>Spread:</strong> {spread}$ por acción
+                </li>
+                <li>
+                  <strong>Comisiones:</strong> {commission}$ por operación
                 </li>
                 <li>
                   <strong>Beneficio Esperado:</strong> {calculateProfitPerTrade().toFixed(2)}$ (2:1
@@ -167,7 +207,7 @@ const TradingPlan = () => {
                   Riesgo-beneficio: 2:1
                 </CListGroupItem>
                 <CListGroupItem style={{ backgroundColor: '#0a161d', color: '#fff', border: '1px solid #e20138' }}>
-                  Utilizar el **Ultimate Oscillator** para validar tendencias y el **retroceso de Fibonacci** para
+                  Utilizar el *Ultimate Oscillator* para validar tendencias y el *retroceso de Fibonacci* para
                   detectar puntos de entrada y salida.
                 </CListGroupItem>
               </CListGroup>
@@ -181,11 +221,11 @@ const TradingPlan = () => {
             <CCardBody>
               <ul style={{color: "white"}}>
                 <li>
-                  Establecer un límite de pérdida diaria de **{calculateRiskPerTrade().toFixed(2)}$** o **1%** del
+                  Establecer un límite de pérdida diaria de *{calculateRiskPerTrade().toFixed(2)}$* o *1%* del
                   capital.
                 </li>
-                <li>Utilizar el tamaño de posición adecuado arriesgando **{riskPercentage}%** por operación.</li>
-                <li>Colocar **Stop-Loss** a una distancia de **{stopLoss}$** de la entrada.</li>
+                <li>Utilizar el tamaño de posición adecuado arriesgando *{riskPercentage}%* por operación.</li>
+                <li>Colocar *Stop-Loss* a una distancia de *{stopLoss}$* de la entrada.</li>
               </ul>
             </CCardBody>
           </CCard>
@@ -197,16 +237,16 @@ const TradingPlan = () => {
             <CCardBody>
               <ul style={{color: "white"}}>
                 <li>
-                  Entrar cuando los patrones de precio (por ejemplo, **banderas**, **triángulos**) se alineen con la
+                  Entrar cuando los patrones de precio (por ejemplo, *banderas, **triángulos*) se alineen con la
                   tendencia.
                 </li>
-                <li>Confirmar señales con indicadores técnicos (**RSI**, **MACD**, **MA**).</li>
-                <li>Buscar ruptura de niveles de **soporte** y **resistencia** importantes.</li>
+                <li>Confirmar señales con indicadores técnicos (*RSI, **MACD, **MA*).</li>
+                <li>Buscar ruptura de niveles de *soporte* y *resistencia* importantes.</li>
                 <li>
-                  Establecer objetivos de ganancia del **{((takeProfit / stopLoss) * 100).toFixed(0)}%** o **{takeProfit}$**
+                  Establecer objetivos de ganancia del *{((takeProfit / stopLoss) * 100).toFixed(0)}%* o *{takeProfit}$*
                   por encima de la entrada.
                 </li>
-                <li>Salir si se alcanza el objetivo de ganancia o el **Stop-Loss**.</li>
+                <li>Salir si se alcanza el objetivo de ganancia o el *Stop-Loss*.</li>
               </ul>
             </CCardBody>
           </CCard>

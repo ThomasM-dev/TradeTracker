@@ -17,7 +17,7 @@ const InvestmentCalculator = () => {
   };
 
   return (
-    <CContainer className="mt-5 mb-5">
+    <CContainer className="mt-5 mb-5" id="inversion">
       <CRow className="justify-content-center">
         <CCol md={6}>
           <CCard style={{ backgroundColor: '#0c161c', color: '#df0136' }}>

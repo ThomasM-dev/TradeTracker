@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   CCollapse,
   CContainer,
@@ -7,34 +7,87 @@ import {
   CNavbarNav,
   CNavbarToggler,
   CNavLink,
-} from '@coreui/react'
-import '@coreui/coreui/dist/css/coreui.min.css';
+} from "@coreui/react";
+import "@coreui/coreui/dist/css/coreui.min.css";
 
 export const NavBar = () => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
+
+  const sections = [
+    { name: "Home", id: "home" },
+    { name: "Operaciones", id: "operaciones" },
+    { name: "Gráficos", id: "graficos" },
+    { name: "Inversión por Operación", id: "inversion" },
+    { name: "Ratio", id: "ratio" },
+    { name: "Interés Compuesto", id: "interes-compuesto" },
+    { name: "ROI", id: "roi" },
+    { name: "Tabla de Herramientas de Mercado", id: "herramientas" },
+    { name: "Horarios del Mercado", id: "horarios" },
+  ];
+
+  const handleScroll = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <>
-      <CNavbar expand="lg" className="bg-black ">
-        <CContainer fluid>
-          <CNavbarBrand className="text-light"  href="#">TradeTracker</CNavbarBrand>
-          <CNavbarToggler
-            aria-label="Toggle navigation"
-            aria-expanded={visible}
-            onClick={() => setVisible(!visible)}
-          />
-          <CCollapse className="navbar-collapse" visible={visible}>
-            <CNavbarNav as="nav">
-              <CNavLink className="text-light"  href="#" active>
-                Home
+    <CNavbar
+      expand="lg"
+      className="custom-navbar"
+      style={{
+        position: "fixed", // Esto hará que el Navbar se quede fijo
+        top: 0,            // Se ubicará en la parte superior de la página
+        width: "100%",     // Asegura que el Navbar ocupe todo el ancho de la pantalla
+        backgroundColor: "#0c161c",
+        padding: "15px",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.7)",
+        zIndex: 1000,      // Asegura que el Navbar esté por encima de otros elementos
+      }}
+    >
+      <CContainer fluid>
+        <CNavbarBrand
+          href="#"
+          style={{
+            color: "#df0136",
+            fontSize: "24px",
+            fontWeight: "bold",
+            letterSpacing: "1px",
+          }}
+        >
+          TradeTracker
+        </CNavbarBrand>
+        <CNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+          style={{ borderColor: "#df0136" }}
+        />
+        <CCollapse className="navbar-collapse" visible={visible}>
+          <CNavbarNav as="nav">
+            {sections.map((section, index) => (
+              <CNavLink
+                key={index}
+                href={`#${section.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleScroll(section.id);
+                }}
+                className="nav-link-custom"
+                style={{
+                  color: "#df0136",
+                  fontSize: "18px",
+                  marginRight: "15px",
+                  transition: "color 0.3s ease",
+                }}
+              >
+                {section.name}
               </CNavLink>
-              <CNavLink className="text-light"  href="#">Operaciones</CNavLink>
-              <CNavLink  className="text-light" href="#">Gráficos </CNavLink>
-              <CNavLink className="text-light"  href="#">Plan de Trading</CNavLink>
-              <CNavLink className="text-light"  href="#">Horario de los mercados</CNavLink>
-            </CNavbarNav>
-          </CCollapse>
-        </CContainer>
-      </CNavbar>
-    </>
-  )
-}
+            ))}
+          </CNavbarNav>
+        </CCollapse>
+      </CContainer>
+    </CNavbar>
+  );
+};

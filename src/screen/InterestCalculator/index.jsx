@@ -45,7 +45,7 @@ const InterestCalculator = () => {
   };
 
   return (
-    <CContainer className="mt-5">
+    <CContainer className="mt-5" id='interes-compuesto'>
       <CRow className="justify-content-center">
         <CCol lg={6}>
           <CCard style={{ backgroundColor: '#0c161c', color: '#df0136' }}>

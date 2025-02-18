@@ -192,6 +192,7 @@ const TradingTable = () => {
     <CContainer
       className="mt-4"
       style={{ backgroundColor: "#121212", padding: "20px", borderRadius: "10px" }}
+       id="operaciones"
     >
       <CCard style={cardStyle}>
         <CCardHeader className="text-center" style={cardStyle}>

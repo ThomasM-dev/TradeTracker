@@ -29,7 +29,7 @@ const RatioCalculator = () => {
   };
 
   return (
-    <CContainer style={{ backgroundColor: '#0c161c', padding: '20px', borderRadius: '10px' }} className="mt-5 mb-5">
+    <CContainer style={{ backgroundColor: '#0c161c', padding: '20px', borderRadius: '10px' }} className="mt-5 mb-5" id="ratio">
       <CRow className="justify-content-center">
         <CCol md={6}>
           <CCard style={{ backgroundColor: '#0c161c', color: '#df0136' }}>

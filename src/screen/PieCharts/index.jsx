@@ -152,7 +152,7 @@ const PieCharts = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="pie-charts container mb-5">
+    <div className="pie-charts container mb-5" id="graficos">
       <CRow>
         <h3 className="text-center mt-5 titleComponents">Panel de Rendimiento y Análisis de Operaciones</h3>
         <CCol sm="12">
