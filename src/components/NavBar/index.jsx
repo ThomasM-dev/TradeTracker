@@ -17,7 +17,7 @@ export const NavBar = () => {
     { name: "Home", id: "home" },
     { name: "Operaciones", id: "operaciones" },
     { name: "Gráficos", id: "graficos" },
-    {name: "Rentabilidad DCA", id: "Rentabilidad_DCA"},
+    {name: "Rentabilidad DCA", id: "rentabilidad_dca"},
     { name: "Inversión por Operación", id: "inversion" },
     { name: "Ratio", id: "ratio" },
     { name: "Interés Compuesto", id: "interes-compuesto" },

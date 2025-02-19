@@ -64,9 +64,8 @@ const DCA_Calculator = () => {
         padding: "20px",
         borderRadius: "10px",
       }}
-      
-    >
-      <h2 style={{ color: "#df0136", textAlign: "center" }} id="Rentabilidad_DCA">Calculadora de Rentabilidad DCA</h2>
+    id="rentabilidad_dca">
+      <h2 style={{ color: "#df0136", textAlign: "center" }}>Calculadora de Rentabilidad DCA</h2>
       <CCard
         style={{ backgroundColor: "#0a161d"}}
       >
