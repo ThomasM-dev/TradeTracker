@@ -17,6 +17,7 @@ export const NavBar = () => {
     { name: "Home", id: "home" },
     { name: "Operaciones", id: "operaciones" },
     { name: "Gráficos", id: "graficos" },
+    {name: "Rentabilidad DCA", id: "Rentabilidad_DCA"},
     { name: "Inversión por Operación", id: "inversion" },
     { name: "Ratio", id: "ratio" },
     { name: "Interés Compuesto", id: "interes-compuesto" },
@@ -37,13 +38,13 @@ export const NavBar = () => {
       expand="lg"
       className="custom-navbar"
       style={{
-        position: "fixed", // Esto hará que el Navbar se quede fijo
-        top: 0,            // Se ubicará en la parte superior de la página
-        width: "100%",     // Asegura que el Navbar ocupe todo el ancho de la pantalla
+        position: "fixed", 
+        top: 0,            
+        width: "100%",     
         backgroundColor: "#0c161c",
         padding: "15px",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.7)",
-        zIndex: 1000,      // Asegura que el Navbar esté por encima de otros elementos
+        zIndex: 1000,      
       }}
     >
       <CContainer fluid>

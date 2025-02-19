@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell } from "@coreui/react";
-import { v4 as uuidv4 } from "uuid"; // Importar uuid
-import { infoTableTrading } from "../../date/infoTableTrading"; // Importar el JSON
-import "./MarketToolsTable.css"; // Importar el archivo CSS
+import { v4 as uuidv4 } from "uuid"; 
+import { infoTableTrading } from "../../date/infoTableTrading"; 
+import "./MarketToolsTable.css"; 
 
 const MarketToolsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
