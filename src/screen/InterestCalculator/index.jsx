@@ -129,6 +129,7 @@ const InterestCalculator = () => {
       },
       bodyStyles: {
         textColor: "#e0003d",
+        fillColor: "#e0003d",
         fontSize: 10,
       },
       alternateRowStyles: {
@@ -316,7 +317,6 @@ const InterestCalculator = () => {
                     </tbody>
                   </CTable>
 
-                  {/* Gráfica */}
                   <div className="mt-4">
                     <h4 style={{ color: "#e0003d" }}>
                       Gráfica de Capital vs Aportación
