@@ -377,8 +377,8 @@ const TradingPlan = () => {
               </h5>
             </CCardHeader>
             <CCardBody>
-              <ul style={{ color: "gray", }}>
-                <li style={{marginBottom: "15px"}}> 
+              <ul style={{ color: "gray" }}>
+                <li style={{ marginBottom: "15px" }}>
                   EMA + Volumen + Acción del Precio Qué busca: Confirmación de
                   la tendencia y validación de la fuerza del movimiento. Cómo
                   funciona: Si el precio está por encima de la EMA de 100 (en
@@ -392,10 +392,10 @@ const TradingPlan = () => {
                   ruptura es válida y la tendencia puede continuar en esa
                   dirección.
                 </li>
-                <li style={{marginBottom: "15px"}}>
+                <li style={{ marginBottom: "15px" }}>
                   Ultimate Oscillator (UO) + Fibonacci + Acción del Precio Qué
-                  buscar: Confirmación de posibles reversiones en niveles clave y
-                  validación de la fuerza del movimiento. Cómo funciona: El UO
+                  buscar: Confirmación de posibles reversiones en niveles clave
+                  y validación de la fuerza del movimiento. Cómo funciona: El UO
                   por encima de 70 indica sobrecompra y por debajo de 30 indica
                   sobreventa. Si el precio está en un nivel de Fibonacci y el UO
                   está en sobrecompra (por encima de 70), y el precio forma un
@@ -405,7 +405,7 @@ const TradingPlan = () => {
                   Fibonacci importante, y forma un patrón de martillo o doble
                   suelo, puede ser una buena señal de compra.
                 </li>
-                <li style={{marginBottom: "15px"}}>
+                <li style={{ marginBottom: "15px" }}>
                   MA (50 y 100) + Volumen + Breakout Qué buscar: Confirmación de
                   una ruptura válida y fuerza de la tendencia. Cómo funciona: Si
                   el precio rompe una resistencia con volumen alto y está por
@@ -417,7 +417,7 @@ const TradingPlan = () => {
                   creciente puede ser una señal de un cambio en la tendencia a
                   corto plazo y una oportunidad de compra.
                 </li>
-                <li style={{marginBottom: "15px"}}>
+                <li style={{ marginBottom: "15px" }}>
                   Fibonacci + Acción del Precio + Divergencia de Volumen Qué
                   buscar: Identificar posibles puntos de reversión en niveles
                   clave con divergencia de volumen. Cómo funciona: Si el precio
@@ -447,6 +447,125 @@ const TradingPlan = () => {
               </ul>
             </CCardBody>
           </CCard>
+          <CRow className="mt-4">
+            <CCol xs={12}>
+              <CCard
+                style={{
+                  backgroundColor: "#0a161d",
+                  border: "1px solid #e20138",
+                }}
+              >
+                <CCardHeader
+                  style={{
+                    backgroundColor: "#0a161d",
+                    borderBottom: "1px solid #e20138",
+                  }}
+                >
+                  <h5 style={{ color: "#e20138" }}>Análisis Top-Down</h5>
+                </CCardHeader>
+                <CCardBody>
+                  <ul style={{ color: "gray", listStyleType: "none" }}>
+                    <li style={{marginBottom: "15px"}}>
+                      <a
+                        href="https://es.tradingview.com/symbols/SPX/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/indices/s-and-p-500--big.svg"
+                          alt="S&P 500"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        S&P 500
+                      </a>
+                    </li>
+                    <li style={{marginBottom: "15px"}}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TVC-DXY/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/indices/u-s-dollar-index--big.svg"
+                          alt="DXY"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        DXY (Dollar Index)
+                      </a>
+                    </li>
+                    <li style={{marginBottom: "15px"}}>
+                      <a
+                        href="https://es.investing.com/indices/msci-emerging-markets"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="/logoMSCI.png"
+                          alt="Mercados Emergentes"
+                          width="50"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Mercados Emergentes
+                      </a>
+                    </li>
+                    <li style={{marginBottom: "15px"}}> 
+                      <a
+                        href="https://es.tradingview.com/markets/futures/#quotes"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/metal/gold--big.svg"
+                          alt="Commodities"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Commodities
+                      </a>
+                    </li>
+                    <li style={{marginBottom: "15px"}}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TVC-US10Y/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/country/US--big.svg"
+                          alt="Bonos del Gobierno"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Bonos del Gobierno
+                      </a>
+                    </li>
+                    <li style={{marginBottom: "15px"}}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BTCUSDT/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg"
+                          alt="Criptomonedas"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Criptomonedas
+                      </a>
+                    </li>
+                  </ul>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
           <CCard
             className="mt-4"
@@ -461,7 +580,7 @@ const TradingPlan = () => {
               <h5 style={{ color: "#e20138" }}>Gestión de Riesgos</h5>
             </CCardHeader>
             <CCardBody>
-              <ul style={{ color: "gray"}}>
+              <ul style={{ color: "gray" }}>
                 <li>
                   Establecer un límite de pérdida diaria de *
                   {calculateRiskPerTrade().toFixed(2)}$* o *1%* del capital.
@@ -493,13 +612,19 @@ const TradingPlan = () => {
               </h5>
             </CCardHeader>
             <CCardBody>
-              <ul style={{ color: "gray"}}>
-                <li>Criterios de Entrada: Identificar patrones en conjunto con los indicadores (EMA, UO, Fibonacci, etc.).
+              <ul style={{ color: "gray" }}>
+                <li>
+                  Criterios de Entrada: Identificar patrones en conjunto con los
+                  indicadores (EMA, UO, Fibonacci, etc.).
                 </li>
                 <li>
-                Stop Loss: Colocar el stop loss en niveles clave de soporte o resistencia o en zonas de posibles reversiones del precio
+                  Stop Loss: Colocar el stop loss en niveles clave de soporte o
+                  resistencia o en zonas de posibles reversiones del precio
                 </li>
-                <li>Take Profit: Ajustar el take profit según los niveles de Fibonacci o patrones de acción del precio.</li>
+                <li>
+                  Take Profit: Ajustar el take profit según los niveles de
+                  Fibonacci o patrones de acción del precio.
+                </li>
               </ul>
             </CCardBody>
           </CCard>
@@ -549,7 +674,7 @@ const TradingPlan = () => {
               <h5 style={{ color: "#e20138" }}>Gestión Emocional</h5>
             </CCardHeader>
             <CCardBody>
-              <ul style={{ color: "gray"}}>
+              <ul style={{ color: "gray" }}>
                 <li>
                   No operar cuando se esté emocional, cansado o distraído.
                 </li>

@@ -1,102 +1,258 @@
-import React, { useState } from 'react';
-import { CContainer, CRow, CCol, CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton, CFormLabel, CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell } from '@coreui/react';
+import React, { useState } from "react";
+import {
+    CForm,
+    CFormInput,
+    CFormLabel,
+    CButton,
+    CTable,
+    CContainer,
+    CRow,
+    CCol,
+    CCard,
+    CCardBody,
+} from "@coreui/react";
+import jsPDF from "jspdf";
+import "jspdf-autotable"; // Importar el plugin para tablas
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const InterestCalculator = () => {
-  const [principal, setPrincipal] = useState('');
-  const [rate, setRate] = useState('');
-  const [time, setTime] = useState(1);
-  const [n, setN] = useState(12);
-  const [results, setResults] = useState({ year1: 0, year2: 0, year3: 0, months: [] });
-
-  const calculateInterest = () => {
-    const p = parseFloat(principal);
-    const r = parseFloat(rate) / 100;
-    const nValue = parseInt(n);
-    let timePeriod = parseInt(time);
-
-    if (!p || !r || !timePeriod) {
-      alert("Por favor ingresa valores válidos.");
-      return;
-    }
-
-    const calculateAmount = (timePeriod) => {
-      return p * Math.pow(1 + r / nValue, nValue * timePeriod);
-    };
-
-    const calculateMonthly = () => {
-      const months = [];
-      for (let i = 1; i <= 36; i++) {
-        const monthlyAmount = calculateAmount(i / 12).toFixed(2);
-        months.push({ month: i, amount: monthlyAmount - p });
-      }
-      return months;
-    };
-
-    const year1 = calculateAmount(1).toFixed(2);
-    const year2 = calculateAmount(2).toFixed(2);
-    const year3 = calculateAmount(3).toFixed(2);
-
-    setResults({
-      year1: year1 - p,
-      year2: year2 - p,
-      year3: year3 - p,
-      months: calculateMonthly()
+    const [formData, setFormData] = useState({
+        aportacionInicial: 0,
+        aportacionMensual: 0,
+        anios: 0,
+        interesAnual: 0,
     });
-  };
+    const [resultados, setResultados] = useState([]);
 
-  return (
-    <CContainer className="mt-5" id='interes-compuesto'>
-      <CRow className="justify-content-center">
-        <CCol lg={6}>
-          <CCard style={{ backgroundColor: '#0c161c', color: '#df0136' }}>
-              <h3 className='text-center'>Calculadora de Interés Compuesto</h3>
-            <CCardBody>
-              <CForm>
-                <CRow className="mb-3">
-                  <CCol xs={12}>
-                    <CFormLabel htmlFor="principal">Capital Inicial</CFormLabel>
-                    <CFormInput
-                      type="number"
-                      id="principal"
-                      value={principal}
-                      onChange={(e) => setPrincipal(e.target.value)}
-                      placeholder="Ingresa el capital inicial"
-                      style={{ backgroundColor: '#0c161c', color: '#df0136', border: '1px solid #df0136' }}
-                    />
-                  </CCol>
-                </CRow>
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: parseFloat(value) });
+    };
 
-                <CRow className="mb-3">
-                  <CCol xs={12}>
-                    <CFormLabel htmlFor="rate">Tasa de Interés Anual (%)</CFormLabel>
-                    <CFormInput
-                      type="number"
-                      id="rate"
-                      value={rate}
-                      onChange={(e) => setRate(e.target.value)}
-                      placeholder="Ingresa la tasa de interés"
-                      style={{ backgroundColor: '#0c161c', color: '#df0136', border: '1px solid #df0136' }}
-                    />
-                  </CCol>
-                </CRow>
+    const calcularInteresCompuesto = () => {
+        const { aportacionInicial, aportacionMensual, anios, interesAnual } = formData;
+        const aportacionAnual = aportacionMensual * 12; // Aportación anual fija
+        const tasaInteres = interesAnual / 100;
+        let capitalInicio = aportacionInicial;
+        const resultadosTemp = [];
 
-                <CButton style={{ backgroundColor: '#df0136', borderColor: '#df0136', color: '#ffffff' }} onClick={calculateInterest}>Calcular</CButton>
-              </CForm>
+        for (let i = 1; i <= anios; i++) {
+            const interesAcumulado = capitalInicio * tasaInteres;
+            const capitalFinal = capitalInicio + interesAcumulado + aportacionAnual;
+            resultadosTemp.push({
+                anio: i,
+                aportacionAnual: aportacionAnual.toFixed(2), // Aportación anual fija
+                capitalInicio: capitalInicio.toFixed(2),
+                interesAcumulado: interesAcumulado.toFixed(2),
+                capitalFinal: capitalFinal.toFixed(2),
+            });
+            capitalInicio = capitalFinal;
+        }
+        setResultados(resultadosTemp);
+    };
 
-              <div className="mt-4">
-                <h5 style={{ color: '#df0136' }}>Ganancias por año:</h5>
-                <ul>
-                  <li><strong>Año 1:</strong> ${results.year1}</li>
-                  <li><strong>Año 2:</strong> ${results.year2}</li>
-                  <li><strong>Año 3:</strong> ${results.year3}</li>
-                </ul>
-              </div>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </CContainer>
-  );
+    const generarPDF = () => {
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.setTextColor("#e0003d");
+        doc.text("Resultados de la Calculadora de Interés Compuesto", 10, 10);
+        doc.setFontSize(12);
+
+        // Capital invertido, generado y diferencia
+        const capitalInvertido =
+            formData.aportacionInicial + formData.aportacionMensual * 12 * formData.anios;
+        const capitalGenerado = resultados.length > 0 ? parseFloat(resultados[resultados.length - 1].capitalFinal) : 0;
+        const diferencia = capitalGenerado - capitalInvertido;
+
+        doc.text(`Aportación Inicial: $${formData.aportacionInicial.toFixed(2)}`, 10, 20);
+        doc.text(`Aportación Mensual: $${formData.aportacionMensual.toFixed(2)}`, 10, 30);
+        doc.text(`Años: ${formData.anios}`, 10, 40);
+        doc.text(`Interés Anual: ${formData.interesAnual.toFixed(2)}%`, 10, 50);
+        doc.text(`Capital Invertido: $${capitalInvertido.toFixed(2)}`, 10, 60);
+        doc.text(`Capital Generado: $${capitalGenerado.toFixed(2)}`, 10, 70);
+        doc.text(`Diferencia: $${diferencia.toFixed(2)}`, 10, 80);
+
+        // Crear la tabla
+        const headers = ["Año", "Aportación Anual", "Capital Inicio", "Interés Acumulado", "Capital Final"];
+        const data = resultados.map((item) => [
+            item.anio,
+            `$${item.aportacionAnual}`,
+            `$${item.capitalInicio}`,
+            `$${item.interesAcumulado}`,
+            `$${item.capitalFinal}`,
+        ]);
+        doc.autoTable({
+            startY: 90,
+            head: [headers],
+            body: data,
+            theme: "grid",
+            headStyles: {
+                fillColor: "#e0003d",
+                textColor: "#0c161c",
+                fontSize: 10,
+            },
+            bodyStyles: {
+                textColor: "#e0003d",
+                fontSize: 10,
+            },
+            alternateRowStyles: {
+                fillColor: "#0c161c",
+            },
+        });
+        doc.save("resultados_interes_compuesto.pdf");
+    };
+
+    const datosGrafica = {
+        labels: resultados.map((item) => item.anio),
+        datasets: [
+            {
+                label: "Capital Final",
+                data: resultados.map((item) => item.capitalFinal),
+                fill: false,
+                borderColor: "#e0003d",
+                tension: 0.1,
+            },
+            {
+                label: "Aportación Anual",
+                data: resultados.map((item) => item.aportacionAnual),
+                fill: false,
+                borderColor: "#0c161c",
+                tension: 0.1,
+            },
+        ],
+    };
+
+    const opcionesGrafica = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Comparación Capital Final vs Aportación Anual',
+            },
+        },
+    };
+
+    // Calcular capital invertido, generado y diferencia
+    const capitalInvertido =
+        formData.aportacionInicial + formData.aportacionMensual * 12 * formData.anios;
+    const capitalGenerado = resultados.length > 0 ? parseFloat(resultados[resultados.length - 1].capitalFinal) : 0;
+    const diferencia = capitalGenerado - capitalInvertido;
+
+    return (
+        <CContainer id="interes-compuesto" style={{ backgroundColor: "#0c161c", color: "#e0003d", padding: "20px" }}>
+            <CRow className="justify-content-center mt-5">
+                <CCol md="8">
+                    <h3 className="text-center" style={{ color: "#e0003d" }}>Calculadora de Interés Compuesto</h3>
+                    <CCard style={{ backgroundColor: "#0c161c", borderColor: "#e0003d" }}>
+                        <CCardBody>
+                            <CForm>
+                                <div className="mb-3">
+                                    <CFormLabel>Aportación Inicial</CFormLabel>
+                                    <CFormInput
+                                        type="number"
+                                        name="aportacionInicial"
+                                        value={formData.aportacionInicial}
+                                        onChange={handleChange}
+                                        style={{ backgroundColor: "#0c161c", color: "#e0003d", borderColor: "#e0003d" }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <CFormLabel>Aportación Mensual</CFormLabel>
+                                    <CFormInput
+                                        type="number"
+                                        name="aportacionMensual"
+                                        value={formData.aportacionMensual}
+                                        onChange={handleChange}
+                                        style={{ backgroundColor: "#0c161c", color: "#e0003d", borderColor: "#e0003d" }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <CFormLabel>Años a Invertir</CFormLabel>
+                                    <CFormInput
+                                        type="number"
+                                        name="anios"
+                                        value={formData.anios}
+                                        onChange={handleChange}
+                                        style={{ backgroundColor: "#0c161c", color: "#e0003d", borderColor: "#e0003d" }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <CFormLabel>Interés Anual (%)</CFormLabel>
+                                    <CFormInput
+                                        type="number"
+                                        name="interesAnual"
+                                        value={formData.interesAnual}
+                                        onChange={handleChange}
+                                        style={{ backgroundColor: "#0c161c", color: "#e0003d", borderColor: "#e0003d" }}
+                                    />
+                                </div>
+                                <CButton onClick={calcularInteresCompuesto} style={{ backgroundColor: "#e0003d", color: "#0c161c", borderColor: "#e0003d" }}>
+                                    Calcular
+                                </CButton>
+                                <CButton onClick={generarPDF} style={{ backgroundColor: "#e0003d", color: "#0c161c", borderColor: "#e0003d", marginLeft: "10px" }}>
+                                    Descargar PDF
+                                </CButton>
+                            </CForm>
+
+                            {resultados.length > 0 && (
+                                <div className="mt-4">
+                                    {/* Resumen de Capital */}
+                                    <div style={{ marginBottom: "20px" }}>
+                                        <h4 style={{ color: "#e0003d" }}>Resumen Financiero</h4>
+                                        <p style={{ color: "#e0003d" }}>
+                                            Capital Invertido: ${capitalInvertido.toFixed(2)}
+                                        </p>
+                                        <p style={{ color: "#e0003d" }}>
+                                            Capital Generado: ${capitalGenerado.toFixed(2)}
+                                        </p>
+                                        <p style={{ color: "#e0003d" }}>
+                                            Diferencia: ${diferencia.toFixed(2)}
+                                        </p>
+                                    </div>
+
+                                    {/* Tabla de Resultados */}
+                                    <h4 style={{ color: "#e0003d" }}>Resultados Detallados</h4>
+                                    <CTable striped hover responsive style={{ color: "#e0003d", backgroundColor: "#0c161c" }}>
+                                        <thead>
+                                            <tr>
+                                                <th style={{ color: "#e0003d" }}>Año</th>
+                                                <th style={{ color: "#e0003d" }}>Aportación Anual</th>
+                                                <th style={{ color: "#e0003d" }}>Capital Inicio</th>
+                                                <th style={{ color: "#e0003d" }}>Interés Acumulado</th>
+                                                <th style={{ color: "#e0003d" }}>Capital Final</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {resultados.map((item, index) => (
+                                                <tr key={index}>
+                                                    <td>{item.anio}</td>
+                                                    <td>${item.aportacionAnual}</td>
+                                                    <td>${item.capitalInicio}</td>
+                                                    <td>${item.interesAcumulado}</td>
+                                                    <td>${item.capitalFinal}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </CTable>
+
+                                    {/* Gráfica */}
+                                    <div className="mt-4">
+                                        <h4 style={{ color: "#e0003d" }}>Gráfica de Capital vs Aportación</h4>
+                                        <Line data={datosGrafica} options={opcionesGrafica} />
+                                    </div>
+                                </div>
+                            )}
+                        </CCardBody>
+                    </CCard>
+                </CCol>
+            </CRow>
+        </CContainer>
+    );
 };
 
 export default InterestCalculator;
