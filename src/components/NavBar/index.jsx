@@ -9,7 +9,7 @@ import {
   CNavLink,
 } from "@coreui/react";
 import "@coreui/coreui/dist/css/coreui.min.css";
-
+import "./NavBar.css"
 export const NavBar = () => {
   const [visible, setVisible] = useState(false);
 
@@ -17,7 +17,7 @@ export const NavBar = () => {
     { name: "Home", id: "home" },
     { name: "Operaciones", id: "operaciones" },
     { name: "Gráficos", id: "graficos" },
-    {name: "Rentabilidad DCA", id: "rentabilidad_dca"},
+    { name: "Rentabilidad DCA", id: "rentabilidad_dca" },
     { name: "Inversión por Operación", id: "inversion" },
     { name: "Ratio", id: "ratio" },
     { name: "Interés Compuesto", id: "interes-compuesto" },
@@ -38,24 +38,19 @@ export const NavBar = () => {
       expand="lg"
       className="custom-navbar"
       style={{
-        position: "fixed", 
-        top: 0,            
-        width: "100%",     
+        position: "fixed",
+        top: 0,
+        width: "100%",
         backgroundColor: "#0c161c",
-        padding: "15px",
+        padding: "10px 15px", 
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.7)",
-        zIndex: 1000,      
+        zIndex: 1000,
       }}
     >
       <CContainer fluid>
         <CNavbarBrand
           href="#"
-          style={{
-            color: "#df0136",
-            fontSize: "24px",
-            fontWeight: "bold",
-            letterSpacing: "1px",
-          }}
+          className="navbar-brand-custom"
         >
           TradeTracker
         </CNavbarBrand>
@@ -66,7 +61,7 @@ export const NavBar = () => {
           style={{ borderColor: "#df0136" }}
         />
         <CCollapse className="navbar-collapse" visible={visible}>
-          <CNavbarNav as="nav">
+          <CNavbarNav as="nav" className="navbar-nav-custom">
             {sections.map((section, index) => (
               <CNavLink
                 key={index}
@@ -76,12 +71,6 @@ export const NavBar = () => {
                   handleScroll(section.id);
                 }}
                 className="nav-link-custom"
-                style={{
-                  color: "#df0136",
-                  fontSize: "18px",
-                  marginRight: "15px",
-                  transition: "color 0.3s ease",
-                }}
               >
                 {section.name}
               </CNavLink>

@@ -77,7 +77,6 @@ const TradingPlan = () => {
         borderRadius: "10px",
       }}
     >
-      {/* Estilo global para <p> */}
       <style>{`
         p {
           color: #fff;
@@ -364,7 +363,10 @@ const TradingPlan = () => {
 
           <CCard
             className="mt-4"
-            style={{ backgroundColor: "#0a161d", border: "1px solid #e20138" }}
+            style={{
+              backgroundColor: "#0a161d",
+              border: "1px solid #e20138",
+            }}
           >
             <CCardHeader
               style={{
@@ -447,6 +449,7 @@ const TradingPlan = () => {
               </ul>
             </CCardBody>
           </CCard>
+
           <CRow className="mt-4">
             <CCol xs={12}>
               <CCard
@@ -465,7 +468,7 @@ const TradingPlan = () => {
                 </CCardHeader>
                 <CCardBody>
                   <ul style={{ color: "gray", listStyleType: "none" }}>
-                    <li style={{marginBottom: "15px"}}>
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.tradingview.com/symbols/SPX/"
                         target="_blank"
@@ -481,7 +484,7 @@ const TradingPlan = () => {
                         S&P 500
                       </a>
                     </li>
-                    <li style={{marginBottom: "15px"}}>
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.tradingview.com/symbols/TVC-DXY/"
                         target="_blank"
@@ -497,7 +500,7 @@ const TradingPlan = () => {
                         DXY (Dollar Index)
                       </a>
                     </li>
-                    <li style={{marginBottom: "15px"}}>
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.investing.com/indices/msci-emerging-markets"
                         target="_blank"
@@ -513,7 +516,7 @@ const TradingPlan = () => {
                         Mercados Emergentes
                       </a>
                     </li>
-                    <li style={{marginBottom: "15px"}}> 
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.tradingview.com/markets/futures/#quotes"
                         target="_blank"
@@ -529,7 +532,7 @@ const TradingPlan = () => {
                         Commodities
                       </a>
                     </li>
-                    <li style={{marginBottom: "15px"}}>
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.tradingview.com/symbols/TVC-US10Y/"
                         target="_blank"
@@ -545,7 +548,7 @@ const TradingPlan = () => {
                         Bonos del Gobierno
                       </a>
                     </li>
-                    <li style={{marginBottom: "15px"}}>
+                    <li style={{ marginBottom: "15px" }}>
                       <a
                         href="https://es.tradingview.com/symbols/BTCUSDT/"
                         target="_blank"
@@ -561,11 +564,357 @@ const TradingPlan = () => {
                         Criptomonedas
                       </a>
                     </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TVC-NI225/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/indices/nikkei-225--big.svg"
+                          alt="Criptomonedas"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Nikkei 225
+                      </a>
+                    </li>
                   </ul>
                 </CCardBody>
               </CCard>
             </CCol>
           </CRow>
+
+          <CRow className="mt-4">
+            <CCol xs={12}>
+              <CCard
+                style={{
+                  backgroundColor: "#0a161d",
+                  border: "1px solid #e20138",
+                }}
+              >
+                <CCardHeader
+                  style={{
+                    backgroundColor: "#0a161d",
+                    borderBottom: "1px solid #e20138",
+                  }}
+                >
+                  <h5 style={{ color: "#e20138" }}>
+                    Acciones Principales de Japón
+                  </h5>
+                </CCardHeader>
+                <CCardBody>
+                  <ul style={{ color: "gray", listStyleType: "none" }}>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TSE-7203/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/toyota--big.svg"
+                          alt="Toyota"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Toyota Motor Corporation
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TSE-6758/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/sony--big.svg"
+                          alt="Sony"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Sony Group Corporation
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TSE-9984/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/softbank--big.svg"
+                          alt="SoftBank"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        SoftBank Group Corp.
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TSE-8058/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/mitsubishi--big.svg"
+                          alt="Mitsubishi"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Mitsubishi Corporation
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/TSE-7974/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/nintendo--big.svg"
+                          alt="Nintendo"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Nintendo Co., Ltd.
+                      </a>
+                    </li>
+                  </ul>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+          <CRow className="mt-4">
+            <CCol xs={12}>
+              <CCard
+                style={{
+                  backgroundColor: "#0a161d",
+                  border: "1px solid #e20138",
+                }}
+              >
+                <CCardHeader
+                  style={{
+                    backgroundColor: "#0a161d",
+                    borderBottom: "1px solid #e20138",
+                  }}
+                >
+                  <h5 style={{ color: "#e20138" }}>
+                    Acciones Principales de Estados Unidos
+                  </h5>
+                </CCardHeader>
+                <CCardBody>
+                  <ul style={{ color: "gray", listStyleType: "none" }}>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-AAPL/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/apple--big.svg"
+                          alt="Apple"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Apple Inc.
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-MSFT/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/microsoft--big.svg"
+                          alt="Microsoft"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Microsoft Corporation
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-AMZN/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/amazon--big.svg"
+                          alt="Amazon"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Amazon.com Inc.
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-GOOGL/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/alphabet--big.svg"
+                          alt="Alphabet (Google)"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Alphabet Inc. (Google)
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-TSLA/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/tesla--big.svg"
+                          alt="Tesla"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Tesla Inc.
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/NASDAQ-NVDA/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/nvidia--big.svg"
+                          alt="Nvidia"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                       Nvidia
+                      </a>
+                    </li>
+                  </ul>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
+          <CRow className="mt-4">
+  <CCol xs={12}>
+    <CCard
+      style={{
+        backgroundColor: "#0a161d",
+        border: "1px solid #e20138",
+      }}
+    >
+      <CCardHeader
+        style={{
+          backgroundColor: "#0a161d",
+          borderBottom: "1px solid #e20138",
+        }}
+      >
+        <h5 style={{ color: "#e20138" }}>Acciones Principales de Argentina</h5>
+      </CCardHeader>
+      <CCardBody>
+        <ul style={{ color: "gray", listStyleType: "none" }}>
+          <li style={{ marginBottom: "15px" }}>
+            <a
+              href="https://es.tradingview.com/symbols/BCBA-GGAL/"
+              target="_blank"
+              style={{ color: "#e20138", textDecoration: "none" }}
+            >
+              <img
+                src="https://s3-symbol-logo.tradingview.com/gpo-fin-galicia--big.svg"
+                alt="Grupo Galicia"
+                width="20"
+                height="20"
+                style={{ marginRight: "8px" }}
+              />
+              Grupo Financiero Galicia
+            </a>
+          </li>
+          <li style={{ marginBottom: "15px" }}>
+            <a
+              href="https://es.tradingview.com/symbols/BCBA-PAMP/"
+              target="_blank"
+              style={{ color: "#e20138", textDecoration: "none" }}
+            >
+              <img
+                src="https://s3-symbol-logo.tradingview.com/pampa-energia--big.svg"
+                alt="Pampa Energía"
+                width="20"
+                height="20"
+                style={{ marginRight: "8px" }}
+              />
+              Pampa Energía
+            </a>
+          </li>
+          <li style={{ marginBottom: "15px" }}>
+            <a
+              href="https://es.tradingview.com/symbols/BCBA-YPFD/"
+              target="_blank"
+              style={{ color: "#e20138", textDecoration: "none" }}
+            >
+              <img
+                src="https://s3-symbol-logo.tradingview.com/ypf--big.svg"
+                alt="YPF"
+                width="20"
+                height="20"
+                style={{ marginRight: "8px" }}
+              />
+              YPF S.A.
+            </a>
+          </li>
+          <li style={{ marginBottom: "15px" }}>
+            <a
+              href="https://es.tradingview.com/symbols/BCBA-BBAR/"
+              target="_blank"
+              style={{ color: "#e20138", textDecoration: "none" }}
+            >
+              <img
+                src="https://s3-symbol-logo.tradingview.com/banco-bilbao-vizcaya-argentaria--big.svg"
+                alt="BBVA Argentina"
+                width="20"
+                height="20"
+                style={{ marginRight: "8px" }}
+              />
+              BBVA Argentina
+            </a>
+          </li>
+          <li style={{ marginBottom: "15px" }}>
+            <a
+              href="https://es.tradingview.com/symbols/BCBA-CEPU/"
+              target="_blank"
+              style={{ color: "#e20138", textDecoration: "none" }}
+            >
+              <img
+                src="https://s3-symbol-logo.tradingview.com/central-puerto--big.svg"
+                alt="Central Puerto"
+                width="20"
+                height="20"
+                style={{ marginRight: "8px" }}
+              />
+              Central Puerto
+            </a>
+          </li>
+        </ul>
+      </CCardBody>
+    </CCard>
+  </CCol>
+</CRow>
 
           <CCard
             className="mt-4"
