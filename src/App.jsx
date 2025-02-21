@@ -14,6 +14,7 @@ import Spinner from "./components/Spinner"
 import MarketToolsTable from './screen/MarketToolsTable'
 import DCA_Calculator from "./screen/DCA_Calculator"
 import CryptoPriceChart from './screen/CryptoPriceChart'
+import GraphicPatterns from "./screen/GraphicPatterns"
 
 function App() {
   const {data, isLoading} = useGetStatsQuery()
@@ -36,6 +37,7 @@ function App() {
     <InterestCalculator/>
     <ROICalculator/>
     <MarketToolsTable/>
+    <GraphicPatterns/>
     <MarketPrices/>
     </>
   )

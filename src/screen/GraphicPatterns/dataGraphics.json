@@ -1,0 +1,52 @@
+{
+    "patrones_graficos": [
+      {
+        "nombre": "Cabeza y Hombros",
+        "tipo": "Bajista",
+        "descripcion": "Un patrón de reversión que se forma después de una tendencia alcista. Consiste en tres picos, donde el pico central (cabeza) es el más alto y los dos laterales (hombros) son más bajos.",
+        "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/H-C-H.JPG/799px-H-C-H.JPG"
+      },
+      {
+        "nombre": "Doble Techo",
+        "tipo": "Bajista",
+        "descripcion": "Un patrón de reversión que se forma después de una tendencia alcista. Consiste en dos picos de similar altura, indicando una posible reversión a la baja.",
+        "imagen": "https://d31dn7nfpuwjnm.cloudfront.net/images/valoraciones/0049/7504/Doble_techo.png?1655244048"
+      },
+      {
+        "nombre": "Doble Suelo",
+        "tipo": "Alcista",
+        "descripcion": "Un patrón de reversión que se forma después de una tendencia bajista. Consiste en dos valles de similar profundidad, indicando una posible reversión al alza.",
+        "imagen": "https://imgs.search.brave.com/M4i8uWLV43SRgGtZaob4Uwm1h-ywXf3FtnXRsY7dY8E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bGl0ZW1hcmtldHMu/Y29tL2NhY2hlL3Vw/bG9hZHMvYmxvZ19w/b3N0L2Jsb2dfcG9z/dHMvZG91YmxlLWJv/dHRvbS1wYXR0ZXJu/L2VzL2RvdWJsZS1i/b3R0b20tcGF0dGVy/bi0yZXMuanBnP3E9/NzUmcz1iOTc3ZTA5/MmQ3ZTljMTQ3NDE2/OWQ0OTA3YzM2Yjkw/Mw"
+      },
+      {
+        "nombre": "Triángulo Ascendente",
+        "tipo": "Alcista",
+        "descripcion": "Un patrón de continuación que se forma cuando el precio consolida entre una línea de resistencia horizontal y una línea de soporte ascendente. Indica una posible continuación de la tendencia alcista.",
+        "imagen": "https://d31dn7nfpuwjnm.cloudfront.net/images/valoraciones/0062/0108/entrada-tri%C3%A1ngulo-ascendente_foro.jpg?1717659149"
+      },
+      {
+        "nombre": "Triángulo Descendente",
+        "tipo": "Bajista",
+        "descripcion": "Un patrón de continuación que se forma cuando el precio consolida entre una línea de soporte horizontal y una línea de resistencia descendente. Indica una posible continuación de la tendencia bajista.",
+        "imagen": "https://cdn.litemarkets.com/cache/uploads/blog_post/blog_posts/descending-triangle/descending-triangle.jpg?q=75&w=1000&s=4d6c4f2c830efe02576349a76b81ee9d"
+      },
+      {
+        "nombre": "Bandera y Banderín",
+        "tipo": "Continuación",
+        "descripcion": "Patrones de continuación que se forman después de un movimiento fuerte del precio. La bandera tiene forma rectangular, mientras que el banderín tiene forma de triángulo. Ambos indican una posible continuación de la tendencia.",
+        "imagen": "https://imgs.search.brave.com/z9zOaanumelzkP0WscrdC7IRQ16OcTOJD5kHhZRdrsA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kMzFk/bjduZnB1d2pubS5j/bG91ZGZyb250Lm5l/dC9pbWFnZXMvdmFs/b3JhY2lvbmVzLzAw/NjEvOTQxMy9wcm95/ZWNjaW9uLWJhbmRl/cmluLWJhamlzdGFf/Zm9yby5qcGc_MTcx/NzQ4NTk3OA"
+      },
+      {
+        "nombre": "Cuña Ascendente",
+        "tipo": "Bajista",
+        "descripcion": "Un patrón de reversión que se forma cuando el precio consolida entre dos líneas de tendencia ascendentes convergentes. Indica una posible reversión a la baja.",
+        "imagen": "https://www.centralcharts.com/medias/guidesdesc/fiches/images/resized/cu%C3%B1a-ascendente.png"
+      },
+      {
+        "nombre": "Cuña Descendente",
+        "tipo": "Alcista",
+        "descripcion": "Un patrón de reversión que se forma cuando el precio consolida entre dos líneas de tendencia descendentes convergentes. Indica una posible reversión al alza.",
+        "imagen": "https://www.centralcharts.com/medias/guidesdesc/fiches/images/resized/cu%C3%B1a-descendente.png"
+      }
+    ]
+  }

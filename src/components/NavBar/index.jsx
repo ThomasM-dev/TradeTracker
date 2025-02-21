@@ -23,6 +23,7 @@ export const NavBar = () => {
     { name: "Interés Compuesto", id: "interes-compuesto" },
     { name: "ROI", id: "roi" },
     { name: "Tabla de Herramientas de Mercado", id: "herramientas" },
+    {name: "Patrones Graficos", id: "patrones-graficos"},
     { name: "Horarios del Mercado", id: "horarios" },
   ];
 
