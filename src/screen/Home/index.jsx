@@ -4,7 +4,7 @@ import '@coreui/coreui/dist/css/coreui.min.css';
 import "./Home.css"
 export const Home = () => {
   return (
-    <div className="home-introduction" id="home">
+    <div className="home-introduction" >
       <CContainer>
         <CRow className="align-items-center">
           <CCol lg={6}>

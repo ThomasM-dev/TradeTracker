@@ -12,7 +12,6 @@ import TradingPlan from "./screen/TradingPlan"
 import { useGetStatsQuery } from './date/firebaseApi'
 import Spinner from "./components/Spinner"
 import MarketToolsTable from './screen/MarketToolsTable'
-import DCA_Calculator from "./screen/DCA_Calculator"
 import CryptoPriceChart from './screen/CryptoPriceChart'
 import GraphicPatterns from "./screen/GraphicPatterns"
 
@@ -31,7 +30,6 @@ function App() {
     <TradingPlan/>
     <TradingTable/>
     <PieCharts/>
-    <DCA_Calculator/>
     <InvestmentCalculator/>
     <RatioCalculator/>
     <InterestCalculator/>

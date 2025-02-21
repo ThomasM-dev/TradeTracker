@@ -85,7 +85,7 @@ const CryptoCarousel = () => {
   };
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container" id="home">
       <Slider {...settings}>
         {cryptos.map((crypto, index) => (
           <div key={`${crypto.symbol}-${index}`} style={{ padding: "0 10px" }}>
