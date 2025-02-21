@@ -1,0 +1,11 @@
+.carousel-container {
+    width: 100%;
+    margin-top: 110px;
+    background-color: black;
+  }
+  
+
+  
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }

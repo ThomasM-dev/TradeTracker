@@ -42,6 +42,7 @@ export const NavBar = () => {
         top: 0,
         width: "100%",
         backgroundColor: "#0c161c",
+        height: "100px",
         padding: "10px 15px", 
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.7)",
         zIndex: 1000,

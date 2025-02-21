@@ -13,6 +13,7 @@ import { useGetStatsQuery } from './date/firebaseApi'
 import Spinner from "./components/Spinner"
 import MarketToolsTable from './screen/MarketToolsTable'
 import DCA_Calculator from "./screen/DCA_Calculator"
+import CryptoPriceChart from './screen/CryptoPriceChart'
 
 function App() {
   const {data, isLoading} = useGetStatsQuery()
@@ -24,6 +25,7 @@ function App() {
   return (
     <>
     <NavBar/>
+    <CryptoPriceChart/>
     <Home/>
     <TradingPlan/>
     <TradingTable/>

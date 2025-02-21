@@ -5,7 +5,7 @@ import "./Home.css"
 export const Home = () => {
   return (
     <div className="home-introduction" id="home">
-      <CContainer className="mt-5">
+      <CContainer>
         <CRow className="align-items-center">
           <CCol lg={6}>
             <h2 className="text-center" style={{color: "#df0136"}}>Bienvenido a TradeTracker</h2>
