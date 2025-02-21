@@ -191,7 +191,7 @@ const InterestCalculator = () => {
           <h3 className="text-center" style={{ color: "#e0003d" }}>
             Calculadora de Interés Compuesto
           </h3>
-          <CCard style={{ backgroundColor: "#0c161c", borderColor: "#e0003d" }}>
+          <CCard style={{ backgroundColor: "#0c161c" }}>
             <CCardBody>
               <CForm>
                 <div className="mb-3">
@@ -267,6 +267,7 @@ const InterestCalculator = () => {
                     color: "#fff",
                     borderColor: "#e0003d",
                     marginLeft: "10px",
+                    display: resultados.length > 0? "inline" : "none"
                   }}
                 >
                   Descargar PDF
