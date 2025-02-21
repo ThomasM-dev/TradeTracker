@@ -9,17 +9,20 @@ import './CryptoCarousel.css'; // Archivo CSS personalizado para estilos adicion
 // Componente CryptoCard optimizado
 const CryptoCard = React.memo(({ name, symbol, logo, updateInterval }) => {
   const [price, setPrice] = useState(null);
+  const [priceChange, setPriceChange] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchPrice = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=usd`
+        `https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=usd&include_24hr_change=true`
       );
       const newPrice = response.data[symbol]?.usd;
-      if (newPrice !== undefined) {
+      const newPriceChange = response.data[symbol]?.usd_24h_change;
+      if (newPrice !== undefined && newPriceChange !== undefined) {
         setPrice(newPrice);
+        setPriceChange(newPriceChange);
         setError(null);
       } else {
         throw new Error(`Precio no disponible para ${name}`);
@@ -58,6 +61,9 @@ const CryptoCard = React.memo(({ name, symbol, logo, updateInterval }) => {
             : error
             ? error
             : `$${price?.toFixed(2) || 'N/A'}`}
+        </CCardText>
+        <CCardText style={{ color: priceChange >= 0 ? 'green' : 'red' }}>
+          {priceChange !== null ? `${priceChange.toFixed(2)}%` : 'N/A'}
         </CCardText>
       </CCardBody>
     </CCard>
