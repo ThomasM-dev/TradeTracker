@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+const API_KEY = "KQQN4O00GU7UKTWN";
 const CACHE_LIFETIME = 10 * 60;
 
 export const stockApi = createApi({
@@ -16,46 +17,43 @@ export const stockApi = createApi({
           { symbol: 'TM', name: 'Toyota', logo: 'https://logo.clearbit.com/toyota.com' },
         ];
 
-        const results = [];
-        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        try {
+          const requests = stocks.map((stock) =>
+            fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock.symbol}&apikey=${API_KEY}`)
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(`Respuesta para ${stock.symbol}:`, data);
+                if (!data['Global Quote']) throw new Error(`No data for ${stock.symbol}`);
 
-        for (const stock of stocks) {
-          try {
-            const response = await fetch(
-              `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock.symbol}&apikey=TU_CLAVE_API`
-            );
-            const data = await response.json();
+                const quote = data['Global Quote'];
+                return {
+                  symbol: stock.symbol,
+                  name: stock.name,
+                  logo: stock.logo,
+                  price: parseFloat(quote['05. price']).toFixed(2),
+                  change: quote['10. change percent'],
+                  volume: parseFloat(quote['06. volume']),
+                };
+              })
+              .catch((error) => ({
+                symbol: stock.symbol,
+                name: stock.name,
+                logo: stock.logo,
+                price: 'N/A',
+                change: 'N/A',
+                volume: 'N/A',
+                error: error.message,
+              }))
+          );
 
-            if (!data['Global Quote']) {
-              throw new Error(`No quote data for ${stock.symbol}`);
-            }
-
-            const quote = data['Global Quote'];
-            results.push({
-              symbol: stock.symbol,
-              name: stock.name,
-              logo: stock.logo,
-              price: parseFloat(quote['05. price']).toFixed(2),
-              change: quote['10. change percent'],
-              volume: parseFloat(quote['06. volume']),
-            });
-          } catch (error) {
-            results.push({
-              symbol: stock.symbol,
-              name: stock.name,
-              logo: stock.logo,
-              price: 'N/A',
-              change: 'N/A',
-              volume: 'N/A',
-            });
-          }
-          await delay(13000); 
+          const results = await Promise.all(requests);
+          return { data: results };
+        } catch (error) {
+          return { error: { message: 'Error al obtener los datos', details: error.message } };
         }
-
-        return { data: results };
       },
-      keepUnusedDataFor: CACHE_LIFETIME, 
-      refetchOnMountOrArgChange: false, 
+      keepUnusedDataFor: CACHE_LIFETIME,
+      refetchOnMountOrArgChange: false,
     }),
   }),
 });
