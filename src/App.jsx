@@ -16,7 +16,6 @@ import MarketToolsTable from './screen/MarketToolsTable';
 import CryptoPriceChart from './screen/CryptoPriceChart';
 import GraphicPatterns from "./screen/GraphicPatterns";
 import NewsSection from "./screen/NewsSection";
-import StockCarousel from './screen/StockCarousel';
 
 function App() {
   const { data, isLoading } = useGetStatsQuery();
@@ -62,7 +61,6 @@ function App() {
       />
 
       <div ref={cryptoPriceChartRef}><CryptoPriceChart /></div>
-      <div ref={stockPricesRef}><StockCarousel /></div>
       <div ref={homeRef}><Home /></div>
       <div ref={tradingPlanRef}><TradingPlan /></div>
       <div ref={tradingTableRef}><TradingTable /></div>
