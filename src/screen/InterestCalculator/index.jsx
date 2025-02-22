@@ -153,7 +153,7 @@ const InterestCalculator = () => {
   const diferencia = capitalGenerado - capitalInvertido;
 
   return (
-    <CContainer>
+    <CContainer className="container">
       <h2 className="text-center my-4" style={{color: "#e0003d"}}>Calculadora de Interés Compuesto</h2>
       <CForm>
         <CRow>
