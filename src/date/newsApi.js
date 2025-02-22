@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const API_KEY = "5b9dcb4581f449c0993c6bc545ca9eba";
-const CACHE_LIFETIME = 15 * 60;
 
 export const newsApi = createApi({
   reducerPath: "newsApi",
@@ -11,11 +10,11 @@ export const newsApi = createApi({
   endpoints: (builder) => ({
     getCryptoNews: builder.query({
       query: () => `everything?q=crypto&language=en&apiKey=${API_KEY}`,
-      keepUnusedDataFor: CACHE_LIFETIME,
+      transformResponse: (response) => response.articles,
     }),
     getStockNews: builder.query({
       query: () => `everything?q=stock market&language=en&apiKey=${API_KEY}`,
-      keepUnusedDataFor: CACHE_LIFETIME,
+      transformResponse: (response) => response.articles,
     }),
   }),
 });

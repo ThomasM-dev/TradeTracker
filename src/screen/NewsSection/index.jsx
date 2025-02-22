@@ -22,6 +22,7 @@ const NewsSection = React.memo(() => {
     isLoading: cryptoLoading,
     refetch: refetchCrypto,
   } = useGetCryptoNewsQuery();
+
   const {
     data: stockNews,
     error: stockError,
@@ -29,14 +30,18 @@ const NewsSection = React.memo(() => {
     refetch: refetchStock,
   } = useGetStockNewsQuery();
 
+  
   const cryptoArticles = useMemo(() => {
-    return cryptoNews?.articles
-      ?.slice(0, 9)
+    return cryptoNews
+      ?.slice(0, 20)
+      .filter(article => article.source?.name !== 'Yahoo Entertainment') 
       .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
   }, [cryptoNews]);
+
   const stockArticles = useMemo(() => {
-    return stockNews?.articles
-      ?.slice(0, 9)
+    return stockNews
+      ?.slice(0, 20)
+      .filter(article => article.source?.name !== 'Yahoo Entertainment') 
       .sort((a, b) => new Date(b.publishedAt || 0) - new Date(a.publishedAt || 0));
   }, [stockNews]);
 
@@ -64,8 +69,13 @@ const NewsSection = React.memo(() => {
   const renderNewsSection = (title, articles, isLoading, error, refetch) => (
     <CCard className="mb-4 bg-dark text-white shadow-sm container">
       <CCardHeader className="d-flex justify-content-between align-items-center">
-        <h2 className="h4 mb-0" style={{color: '#df0136'}}>{title}</h2>
-        <CButton style={{ backgroundColor: '#0c161c', color: '#df0136' }} size="sm" onClick={refetch}>
+        <h2 className="h4 mb-0" style={{ color: '#df0136' }}>{title}</h2>
+        <CButton
+          style={{ backgroundColor: '#0c161c', color: '#df0136' }}
+          size="sm"
+          onClick={refetch}
+          aria-label={`Actualizar ${title}`}
+        >
           Actualizar
         </CButton>
       </CCardHeader>
@@ -76,12 +86,17 @@ const NewsSection = React.memo(() => {
             {renderSkeleton()}
           </>
         ) : error ? (
-          <p className="text-danger">Error al cargar las noticias: {error.message || 'Desconocido'}</p>
+          <div className="text-danger">
+            <p>Error al cargar las noticias: {error.message || 'Desconocido'}</p>
+            <CButton color="danger" size="sm" onClick={refetch}>
+              Reintentar
+            </CButton>
+          </div>
         ) : articles?.length > 0 ? (
           <CListGroup>
-            {articles.map((news, index) => (
+            {articles.map((news) => (
               <CListGroupItem
-                key={index}
+                key={news.url}
                 className="bg-dark text-white border-0 hover-effect"
               >
                 <CLink
@@ -90,7 +105,6 @@ const NewsSection = React.memo(() => {
                   rel="noopener noreferrer"
                   className="text-primary text-decoration-none"
                 >
-                  
                   <CRow>
                     <CCol xs="3">
                       <img

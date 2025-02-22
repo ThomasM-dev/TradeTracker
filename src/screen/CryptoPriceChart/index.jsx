@@ -43,7 +43,6 @@ const CryptoCarousel = () => {
               <CryptoCard
                 name="Cargando..."
                 symbol=""
-                logo="https://via.placeholder.com/50"
                 price="N/A"
                 change="N/A"
                 volume="N/A"
