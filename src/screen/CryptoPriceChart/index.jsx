@@ -39,7 +39,7 @@ const CryptoCarousel = () => {
       <Slider {...settings}>
         {isLoading && !data ? (
           Array(8).fill().map((_, index) => (
-            <div key={`loading-${index}`} style={{ padding: '0 15px' }}>
+            <div  key={`loading-${index}`} style={{ padding: '0 15px', backgroundColor: "#0d0d0d" }}>
               <CryptoCard
                 name="Cargando..."
                 symbol=""
@@ -58,7 +58,7 @@ const CryptoCarousel = () => {
           </div>
         ) : (
           data?.map((crypto) => (
-            <div key={crypto.symbol} style={{ padding: '0 15px' }}>
+            <div key={crypto.symbol} style={{ padding: '0 15px', backgroundColor: "#0d0d0d" }}>
               <CryptoCard
                 name={crypto.name}
                 symbol={crypto.symbol}

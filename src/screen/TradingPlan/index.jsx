@@ -264,12 +264,8 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  Utilizar Ultimate Oscilator en temporalidad de 1 dia para
-                  identificar mejores puntos de soporte y resistencia. En
-                  temporalidad de 1 hr buscar puntos de compra y venta un valor
-                  por encima de 70 indica sobrecompra y un valor por debajo de
-                  30 indica sobrecompra. En 15-5 minutos para buscar posbiles
-                  reversiones del precio y confimar la tendencia
+                  Utilizar la Divergencia del RSI-Volumen Profile -
+                  Fibonacci-Accion del Precio-Ondas de Elliot-Mapa de calor
                 </CListGroupItem>
                 <CListGroupItem
                   style={{
@@ -278,22 +274,17 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  Uso de ema 100 para confirmar tendencia en temporalidad de 1
-                  dia si el precio esta por debajo significa tendencia bajista y
-                  si esta por encima significa tendencia alcista. En
-                  temporalidad de 1 hr si el precio esta por encima de la ema 50
-                  significa tendencia alcista a corto plazo si esta por debajo
-                  de la ema signfica tendencia bajista. Si el precio se
-                  encuentra por encima de la EMA de 50 y el UO está mostrando
-                  condiciones de sobrecompra 70, podrías considerar salir de la
-                  operación o buscar señales de reversión. Si el precio está por
-                  debajo de la EMA de 50 y el UO muestra sobreventa 30, es un
-                  buen momento para buscar compras. Si la EMA de 50 cruza la EMA
-                  de 100 hacia arriba en gráficos de 5-15 minutos, puede indicar
-                  un cambio a corto plazo en la dirección de la tendencia y una
-                  oportunidad de compra. Si la EMA de 50 cruza la EMA de 100
-                  hacia abajo, podría ser una señal de que la tendencia se está
-                  volviendo bajista a corto plazo.
+                  La divergencia del RSI ocurre cuando el movimiento del precio
+                  de un activo y el valor del RSI (un indicador de momento) no
+                  están alineados. Es decir, el precio y el RSI "divergen" en su
+                  dirección, lo que puede ser una señal de una posible reversión
+                  en la tendencia del precio. El RSI mide la fuerza y la
+                  velocidad de los movimientos del precio en una escala de 0 a
+                  100, y sus niveles clave suelen ser 70 (sobrecompra) y 30
+                  (sobreventa). Hay dos tipos principales de divergencias:
+                  Divergencia alcista (Bullish Divergence): Sugiere que el
+                  precio podría subir. Divergencia bajista (Bearish Divergence):
+                  Sugiere que el precio podría bajar.
                 </CListGroupItem>
                 <CListGroupItem
                   style={{
@@ -302,13 +293,21 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  1 día: Usar Fibonacci para obtener una visión global de la
-                  tendencia y detectar zonas clave de soporte/resistencia. 1
-                  hora: Aplicar Fibonacci para identificar retrocesos dentro de
-                  la tendencia a corto plazo y encontrar entradas o salidas más
-                  precisas. 5-15 minutos: Utilizar Fibonacci para ajustar
-                  entradas rápidas en movimientos de corto plazo, especialmente
-                  si el precio retrocede en un pequeño movimiento.
+                  El Volume Profile divide el rango de precios en niveles y mide
+                  cuánto volumen se negoció en cada uno. Los conceptos clave
+                  son: Point of Control (POC): El nivel de precio con el mayor
+                  volumen negociado. Actúa como un "imán" para el precio, ya que
+                  es donde los traders han mostrado mayor aceptación. Ejemplo:
+                  Si el POC está en $50, el precio tiende a volver a ese nivel.
+                  Value Area (VA): El rango de precios donde se negoció el 70%
+                  del volumen total (típicamente). Value Area High (VAH): El
+                  límite superior. Value Area Low (VAL): El límite inferior.
+                  Representa la zona de "aceptación" del precio por parte del
+                  mercado. High Volume Nodes (HVN): Zonas de alto volumen dentro
+                  del perfil. Indican niveles de fuerte soporte o resistencia
+                  porque muchos traders operaron allí. Low Volume Nodes (LVN):
+                  Zonas de bajo volumen. Actúan como "vacíos" donde el precio
+                  tiende a moverse rápido (poca resistencia o soporte).
                 </CListGroupItem>
                 <CListGroupItem
                   style={{
@@ -317,14 +316,15 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  Volumen creciente en una tendencia alcista: Si el volumen
-                  aumenta cuando el precio sube, esto indica que la tendencia
-                  alcista es fuerte y respaldada por los compradores. Esto
-                  refuerza la idea de que el precio podría seguir subiendo.
-                  Volumen creciente en una tendencia bajista: Si el volumen
-                  aumenta mientras el precio baja, esto sugiere que la tendencia
-                  bajista está siendo respaldada por vendedores agresivos, y el
-                  precio probablemente continuará cayendo.
+                  La acción del precio implica observar patrones, niveles clave
+                  (soportes y resistencias), y la estructura del mercado
+                  (tendencias, rangos, rupturas) para tomar decisiones de
+                  trading. Se enfoca en: Velas japonesas: Forma, tamaño y
+                  posición. Patrones: Formaciones recurrentes que indican
+                  posibles movimientos. Estructura: Tendencias alcistas,
+                  bajistas o consolidaciones. El objetivo es entender el
+                  "comportamiento" del precio y la psicología detrás de los
+                  movimientos del mercado (oferta y demanda).
                 </CListGroupItem>
                 <CListGroupItem
                   style={{
@@ -333,15 +333,14 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  Volumen bajo en una tendencia alcista o bajista: Si el precio
-                  está subiendo o bajando, pero el volumen es bajo, podría ser
-                  una señal de que el movimiento está perdiendo fuerza y podría
-                  revertirse. Los traders suelen ver esto como una señal de
-                  cautela. Aumento repentino de volumen en una corrección o
-                  retroceso: Si el precio está en un retroceso o consolidación,
-                  y de repente hay un aumento en el volumen, podría ser una
-                  señal de que el movimiento de corrección está terminando y la
-                  tendencia principal continuará.
+                  Fibonacci Retracement Definición: Se traza desde un mínimo
+                  hasta un máximo (tendencia alcista) o desde un máximo hasta un
+                  mínimo (tendencia bajista) para encontrar niveles donde el
+                  precio podría retroceder antes de continuar. Niveles clave:
+                  23.6%: Retroceso superficial. 38.2%: Retroceso moderado. 50%:
+                  Nivel psicológico (no es un Fibonacci puro, pero muy usado).
+                  61.8%: "Golden Ratio", nivel fuerte de soporte/resistencia.
+                  78.6%: Retroceso profundo.
                 </CListGroupItem>
                 <CListGroupItem
                   style={{
@@ -350,12 +349,48 @@ const TradingPlan = () => {
                     border: "1px solid #e20138",
                   }}
                 >
-                  Precio sube y volumen baja: Si el precio está subiendo, pero
-                  el volumen disminuye, podría indicar que la tendencia es
-                  insostenible y podría haber una reversión. Precio baja y
-                  volumen sube: Si el precio está cayendo, pero el volumen
-                  aumenta, esto puede sugerir que la presión de venta es fuerte,
-                  y el precio puede seguir cayendo.
+                  Fibonacci Extension Definición: Se traza desde un mínimo,
+                  máximo y retroceso para proyectar objetivos tras una ruptura.
+                  Niveles clave: 100%: Igual al movimiento inicial. 161.8%:
+                  Objetivo común tras ruptura. 261.8%: Extensión más agresiva.
+                </CListGroupItem>
+                <CListGroupItem
+                  style={{
+                    backgroundColor: "#0a161d",
+                    color: "gray",
+                    border: "1px solid #e20138",
+                  }}
+                >
+                  La Teoría de las Ondas de Elliott, desarrollada por Ralph
+                  Nelson Elliott en la década de 1930, propone que los precios
+                  se mueven en ciclos predecibles o "ondas" que reflejan el
+                  comportamiento humano. Estas ondas se dividen en: Ondas
+                  Impulsivas (Motive Waves): Son 5 ondas (numeradas 1, 2, 3, 4,
+                  5) que siguen la dirección de la tendencia principal (alcista
+                  o bajista). Representan el movimiento principal del mercado.
+                  Ondas Correctivas (Corrective Waves): Son 3 ondas (etiquetadas
+                  A, B, C) que van en contra de la tendencia principal.
+                  Representan correcciones o retrocesos. Estructura básica
+                  Tendencia alcista: 5 ondas impulsivas hacia arriba (1-2-3-4-5)
+                  seguidas de 3 ondas correctivas hacia abajo (A-B-C). Tendencia
+                  bajista: 5 ondas impulsivas hacia abajo (1-2-3-4-5) seguidas
+                  de 3 ondas correctivas hacia arriba (A-B-C).
+                </CListGroupItem>
+                <CListGroupItem
+                  style={{
+                    backgroundColor: "#0a161d",
+                    color: "gray",
+                    border: "1px solid #e20138",
+                  }}
+                >
+                  Un mapa de calor es una representación gráfica que usa colores
+                  para mostrar la intensidad o densidad de datos en un gráfico o
+                  tabla: Colores cálidos (rojo, naranja): Alta actividad o
+                  valor. Colores fríos (azul, verde): Baja actividad o valor.
+                  Los mapas de calor se aplican de varias formas: Mapa de calor
+                  de precios: Muestra dónde se concentra la actividad del precio
+                  (similar al Volume Profile). Mapa de calor de volumen: Resalta
+                  niveles de precio con mayor volumen negociado.
                 </CListGroupItem>
               </CListGroup>
             </CCardBody>
@@ -381,70 +416,61 @@ const TradingPlan = () => {
             <CCardBody>
               <ul style={{ color: "gray" }}>
                 <li style={{ marginBottom: "15px" }}>
-                  EMA + Volumen + Acción del Precio Qué busca: Confirmación de
-                  la tendencia y validación de la fuerza del movimiento. Cómo
-                  funciona: Si el precio está por encima de la EMA de 100 (en
-                  gráfico diario) y el volumen aumenta cuando el precio sube, es
-                  una señal de que la tendencia alcista es fuerte. Si el precio
-                  se acerca a una resistencia clave y forma un patrón de acción
-                  del precio como un doble techo o estrella fugaz, con un
-                  volumen creciente, esto indica una posible reversión bajista.
-                  Si el precio rompe la EMA de 50 en el gráfico de 1 hora y el
-                  volumen aumenta significativamente, es una señal de que la
-                  ruptura es válida y la tendencia puede continuar en esa
-                  dirección.
+                  Mapa de Calor + Fibonacci + Acción del Precio Qué buscar: Una
+                  zona caliente en el mapa de calor (alta densidad de
+                  volumen/precio) que coincide con un nivel de retroceso
+                  Fibonacci (61.8%, 50%) y un patrón de acción del precio
+                  (martillo, estrella fugaz). Cómo funciona: El mapa de calor
+                  resalta niveles clave de actividad; Fibonacci define el
+                  retroceso exacto; la acción del precio confirma la reversión o
+                  continuación.
                 </li>
                 <li style={{ marginBottom: "15px" }}>
-                  Ultimate Oscillator (UO) + Fibonacci + Acción del Precio Qué
-                  buscar: Confirmación de posibles reversiones en niveles clave
-                  y validación de la fuerza del movimiento. Cómo funciona: El UO
-                  por encima de 70 indica sobrecompra y por debajo de 30 indica
-                  sobreventa. Si el precio está en un nivel de Fibonacci y el UO
-                  está en sobrecompra (por encima de 70), y el precio forma un
-                  patrón de acción del precio como una estrella fugaz o hombro
-                  cabeza hombro, puede ser una señal de venta. Si el UO está por
-                  debajo de 30 (sobreventa) y el precio toca un nivel de
-                  Fibonacci importante, y forma un patrón de martillo o doble
-                  suelo, puede ser una buena señal de compra.
+                  Mapa de Calor + RSI + Volume Profile Qué buscar: Una zona
+                  caliente en el mapa de calor que se alinea con un HVN (nodo de
+                  alto volumen) del Volume Profile y muestra una divergencia en
+                  el RSI (alcista o bajista). Cómo funciona: El mapa de calor y
+                  Volume Profile identifican niveles clave; el RSI detecta
+                  pérdida de momentum para confirmar reversión.
                 </li>
                 <li style={{ marginBottom: "15px" }}>
-                  MA (50 y 100) + Volumen + Breakout Qué buscar: Confirmación de
-                  una ruptura válida y fuerza de la tendencia. Cómo funciona: Si
-                  el precio rompe una resistencia con volumen alto y está por
-                  encima de la EMA de 50 (en gráfico de 1 hora), esto sugiere
-                  que la tendencia alcista está tomando fuerza. Si el precio
-                  rompe un soporte con volumen alto y está por debajo de la EMA
-                  de 50, esto indica una tendencia bajista. Un cruce de la EMA
-                  de 50 por encima de la EMA de 100 en 5-15 minutos con volumen
-                  creciente puede ser una señal de un cambio en la tendencia a
-                  corto plazo y una oportunidad de compra.
+                  Mapa de Calor + Ondas de Elliott + Volumen Qué buscar: Una
+                  zona caliente que marca el inicio o fin de una onda Elliott
+                  (Onda 3 o 5), confirmada por un aumento o disminución de
+                  volumen. Cómo funciona: El mapa de calor señala niveles de
+                  alta actividad; las Ondas de Elliott dan la estructura; el
+                  volumen valida la fuerza.
                 </li>
                 <li style={{ marginBottom: "15px" }}>
-                  Fibonacci + Acción del Precio + Divergencia de Volumen Qué
-                  buscar: Identificar posibles puntos de reversión en niveles
-                  clave con divergencia de volumen. Cómo funciona: Si el precio
-                  llega a un nivel de Fibonacci clave (como 61.8%) y el volumen
-                  disminuye mientras el precio sube, puede indicar que la
-                  tendencia alcista está perdiendo fuerza. Si hay divergencia
-                  entre el precio y el volumen (por ejemplo, el precio hace
-                  nuevos máximos, pero el volumen disminuye), puede ser una
-                  señal de que el movimiento no tiene apoyo suficiente y podría
-                  revertir. Si en el nivel de Fibonacci el precio forma un
-                  patrón como un doble techo o pin bar, y el volumen disminuye,
-                  esto puede ser una señal de venta.
+                  Mapa de Calor + Acción del Precio + RSI Qué buscar: Una zona
+                  caliente con un patrón de acción del precio (doble suelo,
+                  doble techo) y una señal de RSI (sobrecompra/sobreventa o
+                  divergencia). Cómo funciona: El mapa de calor ubica el nivel
+                  crítico; la acción del precio da la señal; el RSI confirma el
+                  momentum.
                 </li>
-                <li>
-                  UO + EMA de 50 + Acción del Precio en 1 Hora Qué buscar:
-                  Confirmación de la tendencia y posible entrada en condiciones
-                  de sobrecompra o sobreventa. Cómo funciona: Si el UO está en
-                  sobrecompra 70 y el precio está por encima de la EMA de 50 en
-                  el gráfico de 1 hora, y se forma un patrón de reversión como
-                  un doji o estrella fugaz cerca de un nivel de resistencia,
-                  puede ser una señal de que es hora de salir de la operación o
-                  prepararte para una reversión. Si el UO está en sobreventa 30
-                  y el precio está por debajo de la EMA de 50, y forma un patrón
-                  como un martillo en un nivel de soporte, puede ser una señal
-                  de compra.
+                <li style={{ marginBottom: "15px" }}>
+                  Mapa de Calor + Fibonacci + Volume Profile + Ondas de Elliott
+                  Qué buscar: Una zona caliente que coincide con un nivel
+                  Fibonacci (61.8%), un HVN del Volume Profile, y el inicio/fin
+                  de una onda Elliott. Cómo funciona: Máxima confluencia: mapa
+                  de calor y Volume Profile señalan el nivel, Fibonacci lo
+                  cuantifica, Ondas de Elliott lo contextualizan.
+                </li>
+                <li style={{ marginBottom: "15px" }}>
+                  Mapa de Calor + RSI + Acción del Precio + Ondas de Elliott Qué
+                  buscar: Una zona caliente con divergencia en RSI, un patrón de
+                  acción del precio, y una onda Elliott específica (Onda 5 o C).
+                  Cómo funciona: El mapa de calor y la acción del precio
+                  identifican el nivel; RSI y Ondas de Elliott predicen la
+                  reversión.
+                </li>
+                <li style={{ marginBottom: "15px" }}>
+                  Mapa de Calor + Volume Profile + Fibonacci + Acción del Precio
+                  Qué buscar: Una zona caliente que coincide con un HVN del
+                  Volume Profile, un nivel Fibonacci, y un patrón de acción del
+                  precio. Cómo funciona: Confluencia máxima para niveles clave;
+                  la acción del precio da la señal final.
                 </li>
               </ul>
             </CCardBody>
@@ -804,7 +830,7 @@ const TradingPlan = () => {
                           height="20"
                           style={{ marginRight: "8px" }}
                         />
-                       Nvidia
+                        Nvidia
                       </a>
                     </li>
                   </ul>
@@ -813,108 +839,110 @@ const TradingPlan = () => {
             </CCol>
           </CRow>
           <CRow className="mt-4">
-  <CCol xs={12}>
-    <CCard
-      style={{
-        backgroundColor: "#0a161d",
-        border: "1px solid #e20138",
-      }}
-    >
-      <CCardHeader
-        style={{
-          backgroundColor: "#0a161d",
-          borderBottom: "1px solid #e20138",
-        }}
-      >
-        <h5 style={{ color: "#e20138" }}>Acciones Principales de Argentina</h5>
-      </CCardHeader>
-      <CCardBody>
-        <ul style={{ color: "gray", listStyleType: "none" }}>
-          <li style={{ marginBottom: "15px" }}>
-            <a
-              href="https://es.tradingview.com/symbols/BCBA-GGAL/"
-              target="_blank"
-              style={{ color: "#e20138", textDecoration: "none" }}
-            >
-              <img
-                src="https://s3-symbol-logo.tradingview.com/gpo-fin-galicia--big.svg"
-                alt="Grupo Galicia"
-                width="20"
-                height="20"
-                style={{ marginRight: "8px" }}
-              />
-              Grupo Financiero Galicia
-            </a>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <a
-              href="https://es.tradingview.com/symbols/BCBA-PAMP/"
-              target="_blank"
-              style={{ color: "#e20138", textDecoration: "none" }}
-            >
-              <img
-                src="https://s3-symbol-logo.tradingview.com/pampa-energia--big.svg"
-                alt="Pampa Energía"
-                width="20"
-                height="20"
-                style={{ marginRight: "8px" }}
-              />
-              Pampa Energía
-            </a>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <a
-              href="https://es.tradingview.com/symbols/BCBA-YPFD/"
-              target="_blank"
-              style={{ color: "#e20138", textDecoration: "none" }}
-            >
-              <img
-                src="https://s3-symbol-logo.tradingview.com/ypf--big.svg"
-                alt="YPF"
-                width="20"
-                height="20"
-                style={{ marginRight: "8px" }}
-              />
-              YPF S.A.
-            </a>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <a
-              href="https://es.tradingview.com/symbols/BCBA-BBAR/"
-              target="_blank"
-              style={{ color: "#e20138", textDecoration: "none" }}
-            >
-              <img
-                src="https://s3-symbol-logo.tradingview.com/banco-bilbao-vizcaya-argentaria--big.svg"
-                alt="BBVA Argentina"
-                width="20"
-                height="20"
-                style={{ marginRight: "8px" }}
-              />
-              BBVA Argentina
-            </a>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <a
-              href="https://es.tradingview.com/symbols/BCBA-CEPU/"
-              target="_blank"
-              style={{ color: "#e20138", textDecoration: "none" }}
-            >
-              <img
-                src="https://s3-symbol-logo.tradingview.com/central-puerto--big.svg"
-                alt="Central Puerto"
-                width="20"
-                height="20"
-                style={{ marginRight: "8px" }}
-              />
-              Central Puerto
-            </a>
-          </li>
-        </ul>
-      </CCardBody>
-    </CCard>
-  </CCol>
-</CRow>
+            <CCol xs={12}>
+              <CCard
+                style={{
+                  backgroundColor: "#0a161d",
+                  border: "1px solid #e20138",
+                }}
+              >
+                <CCardHeader
+                  style={{
+                    backgroundColor: "#0a161d",
+                    borderBottom: "1px solid #e20138",
+                  }}
+                >
+                  <h5 style={{ color: "#e20138" }}>
+                    Acciones Principales de Argentina
+                  </h5>
+                </CCardHeader>
+                <CCardBody>
+                  <ul style={{ color: "gray", listStyleType: "none" }}>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BCBA-GGAL/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/gpo-fin-galicia--big.svg"
+                          alt="Grupo Galicia"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Grupo Financiero Galicia
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BCBA-PAMP/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/pampa-energia--big.svg"
+                          alt="Pampa Energía"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Pampa Energía
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BCBA-YPFD/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/ypf--big.svg"
+                          alt="YPF"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        YPF S.A.
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BCBA-BBAR/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/banco-bilbao-vizcaya-argentaria--big.svg"
+                          alt="BBVA Argentina"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        BBVA Argentina
+                      </a>
+                    </li>
+                    <li style={{ marginBottom: "15px" }}>
+                      <a
+                        href="https://es.tradingview.com/symbols/BCBA-CEPU/"
+                        target="_blank"
+                        style={{ color: "#e20138", textDecoration: "none" }}
+                      >
+                        <img
+                          src="https://s3-symbol-logo.tradingview.com/central-puerto--big.svg"
+                          alt="Central Puerto"
+                          width="20"
+                          height="20"
+                          style={{ marginRight: "8px" }}
+                        />
+                        Central Puerto
+                      </a>
+                    </li>
+                  </ul>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
           <CCard
             className="mt-4"
@@ -963,16 +991,52 @@ const TradingPlan = () => {
             <CCardBody>
               <ul style={{ color: "gray" }}>
                 <li>
-                  Criterios de Entrada: Identificar patrones en conjunto con los
-                  indicadores (EMA, UO, Fibonacci, etc.).
+                  Entrada Larga (Compra): Condición: El precio está en una zona
+                  caliente del Mapa de Calor (alta densidad) que coincide con un
+                  retroceso Fibonacci (50% o 61.8%) y un HVN del Volume Profile.
+                  Acción del Precio muestra un patrón de reversión alcista
+                  (martillo, doble suelo, doji con rechazo al alza). RSI indica
+                  sobreventa 30 o divergencia alcista (mínimos más altos). Ondas
+                  de Elliott: Inicio de Onda 3 tras retroceso de Onda 2,
+                  confirmado por volumen creciente.
                 </li>
                 <li>
-                  Stop Loss: Colocar el stop loss en niveles clave de soporte o
-                  resistencia o en zonas de posibles reversiones del precio
+                  Entrada Corta (Venta): Condición: El precio está en una zona
+                  caliente del Mapa de Calor que coincide con una extensión
+                  Fibonacci (161.8%) o resistencia, y un LVN del Volume Profile.
+                  Acción del Precio muestra un patrón de reversión bajista
+                  (estrella fugaz, doble techo, doji con rechazo a la baja). RSI
+                  indica sobrecompra 70 o divergencia bajista (máximos más
+                  bajos). Ondas de Elliott: Fin de Onda 5 o inicio de Onda C,
+                  confirmado por volumen decreciente.
                 </li>
                 <li>
-                  Take Profit: Ajustar el take profit según los niveles de
-                  Fibonacci o patrones de acción del precio.
+                  Salida con Ganancias (Take-Profit): Condición para Compra: El
+                  precio alcanza una extensión Fibonacci (161.8% o 261.8%) o una
+                  zona caliente del Mapa de Calor con baja densidad (LVN del
+                  Volume Profile). Acción del Precio muestra signos de
+                  agotamiento (estrella fugaz, doble techo). RSI entra en
+                  sobrecompra 70 o muestra divergencia bajista. Ondas de
+                  Elliott: Fin de Onda 5.
+                </li>
+                <li>
+                  Condición para Venta: El precio alcanza un retroceso Fibonacci
+                  (61.8% o 100%) o una zona caliente del Mapa de Calor con alta
+                  densidad (HVN del Volume Profile). Acción del Precio muestra
+                  signos de reversión alcista (martillo, doble suelo). RSI entra
+                  en sobreventa 30 o muestra divergencia alcista. Ondas de
+                  Elliott: Fin de Onda C.
+                </li>
+                <li>
+                  Salida con Pérdidas (Stop-Loss): Condición General: El precio
+                  cruza un nivel clave por debajo del soporte (compra) o por
+                  encima de la resistencia (venta), definido por el Mapa de
+                  Calor, Fibonacci o Volume Profile. Acción del Precio rompe la
+                  estructura (mínimo más bajo tras martillo, máximo más alto
+                  tras estrella fugaz). RSI confirma ruptura (sale de sobreventa
+                  en compra o sobrecompra en venta sin divergencia). Ondas de
+                  Elliott: Invalida la estructura (Onda 2 cae más allá del
+                  inicio de Onda 1).
                 </li>
               </ul>
             </CCardBody>

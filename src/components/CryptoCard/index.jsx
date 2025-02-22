@@ -15,8 +15,7 @@ const CryptoCard = React.memo(({ name, symbol, logo, price, change, volume, isLo
         textAlign: 'center',
         padding: '1rem',
         flexShrink: 0,
-        backgroundColor: '#1a1a1a',
-        border: '1px solid #333',
+        backgroundColor: '#0c161c',
         transition: 'transform 0.2s',
       }}
     >
