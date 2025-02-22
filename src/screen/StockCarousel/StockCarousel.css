@@ -1,0 +1,21 @@
+.carousel-container {
+  width: 100%;
+}
+
+.carousel-container .slick-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-container .slick-dots li button:before {
+  color: #df0136;
+  font-size: 10px;
+}
+
+.carousel-container .slick-dots li.slick-active button:before {
+  color: #fff;
+}
+
+.stock-card:hover {
+  transform: scale(1.05);
+}

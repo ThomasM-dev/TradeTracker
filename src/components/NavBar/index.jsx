@@ -9,27 +9,28 @@ import {
   CNavLink,
 } from "@coreui/react";
 import "@coreui/coreui/dist/css/coreui.min.css";
-import "./NavBar.css"
-export const NavBar = () => {
+import "./NavBar.css";
+
+export const NavBar = ({ refs }) => {
   const [visible, setVisible] = useState(false);
 
   const sections = [
-    { name: "Home", id: "home" },
-    { name: "Operaciones", id: "operaciones" },
-    { name: "Gráficos", id: "graficos" },
-    { name: "Inversión por Operación", id: "inversion" },
-    { name: "Ratio", id: "ratio" },
-    { name: "Interés Compuesto", id: "interes-compuesto" },
-    { name: "ROI", id: "roi" },
-    { name: "Tabla de Herramientas de Mercado", id: "herramientas" },
-    {name: "Patrones Graficos", id: "patrones-graficos"},
-    { name: "Horarios del Mercado", id: "horarios" },
+    { name: "Home", ref: refs.home },
+    { name: "Operaciones", ref: refs.tradingTable },
+    { name: "Gráficos", ref: refs.pieCharts },
+    { name: "Inversión por Operación", ref: refs.investmentCalculator },
+    { name: "Ratio", ref: refs.ratioCalculator },
+    { name: "Interés Compuesto", ref: refs.interestCalculator },
+    { name: "ROI", ref: refs.roiCalculator },
+    {name: "Noticias", ref: refs. newsApi},
+    { name: "Herramientas de Mercado", ref: refs.marketToolsTable },
+    { name: "Patrones Gráficos", ref: refs.graphicPatterns },
+    { name: "Horarios del Mercado", ref: refs.marketPrices },
   ];
 
-  const handleScroll = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+  const handleScroll = (ref) => {
+    if (ref?.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -49,10 +50,7 @@ export const NavBar = () => {
       }}
     >
       <CContainer fluid>
-        <CNavbarBrand
-          href="#"
-          className="navbar-brand-custom"
-        >
+        <CNavbarBrand href="#" className="navbar-brand-custom">
           TradeTracker
         </CNavbarBrand>
         <CNavbarToggler
@@ -66,10 +64,10 @@ export const NavBar = () => {
             {sections.map((section, index) => (
               <CNavLink
                 key={index}
-                href={`#${section.id}`}
+                href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleScroll(section.id);
+                  handleScroll(section.ref);
                 }}
                 className="nav-link-custom"
               >

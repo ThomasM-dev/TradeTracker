@@ -1,11 +1,22 @@
-.carousel-container {
-    width: 100%;
-    margin-top: 110px;
-    background-color: black;
-  }
-  
+.carousel-container-crypto {
+  width: 100%;
+  margin-top: 110px;
+}
 
-  
-  .carousel::-webkit-scrollbar {
-    display: none;
-  }
+.carousel-container-crypto .slick-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-container-crypto .slick-dots li button:before {
+  color: #df0136;
+  font-size: 10px;
+}
+
+.carousel-container-crypto .slick-dots li.slick-active button:before {
+  color: #fff;
+}
+
+.crypto-card:hover {
+  transform: scale(1.05);
+}
