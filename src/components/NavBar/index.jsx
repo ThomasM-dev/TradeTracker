@@ -22,6 +22,7 @@ export const NavBar = ({ refs }) => {
     { name: "Ratio", ref: refs.ratioCalculator },
     { name: "Interés Compuesto", ref: refs.interestCalculator },
     { name: "ROI", ref: refs.roiCalculator },
+    {name: "EMA Exponencial", ref: refs. emaExponencial},
     { name: "Herramientas de Mercado", ref: refs.marketToolsTable },
     { name: "Patrones Gráficos", ref: refs.graphicPatterns },
     { name: "Horarios del Mercado", ref: refs.marketPrices },

@@ -15,6 +15,7 @@ import Spinner from "./components/Spinner";
 import MarketToolsTable from './screen/MarketToolsTable';
 import CryptoPriceChart from './screen/CryptoPriceChart';
 import GraphicPatterns from "./screen/GraphicPatterns";
+import EmaExponencial from './screen/EmaExponencial';
 
 function App() {
   const { data, isLoading } = useGetStatsQuery();
@@ -31,6 +32,7 @@ function App() {
   const graphicPatternsRef = useRef(null);
   const marketPricesRef = useRef(null);
   const cryptoPriceChartRef = useRef(null);
+  const emaExponencialRef = useRef(null)
 
   if (isLoading) {
     return <Spinner />;
@@ -52,6 +54,7 @@ function App() {
           graphicPatterns: graphicPatternsRef,
           marketPrices: marketPricesRef,
           cryptoPriceChart: cryptoPriceChartRef,
+          emaExponencial: emaExponencialRef
         }} 
       />
 
@@ -64,6 +67,7 @@ function App() {
       <div ref={ratioCalculatorRef}><RatioCalculator /></div>
       <div ref={interestCalculatorRef}><InterestCalculator /></div>
       <div ref={roiCalculatorRef}><ROICalculator /></div>
+      <div ref={emaExponencialRef}><EmaExponencial/></div>
       <div ref={marketToolsTableRef}><MarketToolsTable /></div>
       <div ref={graphicPatternsRef}><GraphicPatterns /></div>
       <div ref={marketPricesRef}><MarketPrices /></div>

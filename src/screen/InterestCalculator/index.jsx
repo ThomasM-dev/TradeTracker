@@ -25,7 +25,7 @@ import {
   Legend,
 } from "chart.js";
 
-// Registrar componentes de Chart.js
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const InterestCalculator = () => {
@@ -37,14 +37,14 @@ const InterestCalculator = () => {
   });
   const [resultados, setResultados] = useState([]);
 
-  // Manejar cambios en los campos del formulario
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const numericValue = parseFloat(value) || 0; // Asegurar que el valor sea numérico
+    const numericValue = parseFloat(value) || 0; 
     setFormData({ ...formData, [name]: numericValue });
   };
 
-  // Calcular el interés compuesto
+  
   const calcularInteresCompuesto = () => {
     const { aportacionInicial, aportacionMensual, anios, interesAnual } = formData;
 
@@ -74,7 +74,7 @@ const InterestCalculator = () => {
     setResultados(resultadosTemp);
   };
 
-  // Descargar resultados como PDF
+  
   const descargarPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
