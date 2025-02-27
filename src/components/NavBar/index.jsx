@@ -16,6 +16,7 @@ export const NavBar = ({ refs }) => {
 
   const sections = [
     { name: "Home", ref: refs.home },
+    {name: "Portafolio Diversificado", ref: refs.portafoliodiversificado},
     { name: "Operaciones", ref: refs.tradingTable },
     { name: "Gráficos", ref: refs.pieCharts },
     { name: "Inversión por Operación", ref: refs.investmentCalculator },
