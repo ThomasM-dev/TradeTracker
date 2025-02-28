@@ -57,7 +57,7 @@ function App() {
           marketPrices: marketPricesRef,
           cryptoPriceChart: cryptoPriceChartRef,
           emaExponencial: emaExponencialRef,
-          portafoliodiversificado: portafoliodiversificadoRef
+          portafoliodiversificado: portafoliodiversificadoRef,
         }} 
       />
 
