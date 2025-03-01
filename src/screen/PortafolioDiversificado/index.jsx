@@ -7,6 +7,11 @@ import {
   CAlert,
   CFormInput
 } from '@coreui/react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+// Registrar los componentes necesarios para Chart.js
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PortafolioDiversificado = () => {
   const [capital, setCapital] = useState('');
@@ -24,13 +29,56 @@ const PortafolioDiversificado = () => {
     }
 
     const distribucion = {
-      criptomonedas: capitalNumerico * 0.5,
-      etfs: capitalNumerico * 0.3,
-      acciones: capitalNumerico * 0.1,
-      tokens: capitalNumerico * 0.1
+      criptomonedas: capitalNumerico * 0.30,  // 30%
+      acciones: capitalNumerico * 0.20,      // 20%
+      etfs: capitalNumerico * 0.15,          // 15%
+      tokens: capitalNumerico * 0.05,        // 5%
+      trading: capitalNumerico * 0.30        // 30%
     };
 
     setResultados(distribucion);
+  };
+
+  // Datos para el gráfico de torta
+  const chartData = resultados ? {
+    labels: ['Criptomonedas (30%)', 'Acciones (20%)', 'ETFs (15%)', 'Tokens nuevos (5%)', 'Trading (30%)'],
+    datasets: [{
+      data: [
+        resultados.criptomonedas,
+        resultados.acciones,
+        resultados.etfs,
+        resultados.tokens,
+        resultados.trading
+      ],
+      backgroundColor: [
+        '#e0003d', // Rojo para cripto
+        '#ff3366', // Rosa para acciones
+        '#1a2529', // Gris oscuro para ETFs
+        '#ff9999', // Rosa claro para tokens
+        '#cc0033'  // Rojo oscuro para trading
+      ],
+      borderWidth: 1,
+    }]
+  } : null;
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#ffffff'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const value = context.raw;
+            return `${context.label}: $${value.toFixed(2)}`;
+          }
+        }
+      }
+    }
   };
 
   return (
@@ -39,7 +87,7 @@ const PortafolioDiversificado = () => {
         backgroundColor: '#0c161c',
         border: 'none',
         padding: '25px',
-        maxWidth: '500px',
+        maxWidth: '600px',
         margin: '0 auto',
         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
         borderRadius: '12px',
@@ -71,14 +119,7 @@ const PortafolioDiversificado = () => {
           padding: '12px',
           marginBottom: '20px',
           fontSize: '1rem',
-          transition: 'all 0.3s ease',
-          ':hover': {
-            borderColor: '#ff3366'
-          },
-          ':focus': {
-            borderColor: '#ff3366',
-            boxShadow: '0 0 8px rgba(224, 0, 61, 0.3)'
-          }
+          transition: 'all 0.3s ease'
         }}
       />
 
@@ -94,12 +135,7 @@ const PortafolioDiversificado = () => {
           fontSize: '1.1rem',
           fontWeight: '500',
           marginBottom: '25px',
-          transition: 'all 0.3s ease',
-          ':hover': {
-            backgroundColor: '#ff3366',
-            transform: 'translateY(-2px)',
-            boxShadow: '0 4px 12px rgba(224, 0, 61, 0.4)'
-          }
+          transition: 'all 0.3s ease'
         }}
       >
         Calcular Distribución
@@ -115,8 +151,7 @@ const PortafolioDiversificado = () => {
             padding: '15px',
             marginBottom: '20px',
             fontSize: '0.95rem',
-            opacity: 0.9,
-            transition: 'all 0.3s ease'
+            opacity: 0.9
           }}
         >
           {error}
@@ -124,36 +159,38 @@ const PortafolioDiversificado = () => {
       )}
 
       {resultados && (
-        <CListGroup style={{ border: 'none' }}>
-          {[
-            { label: 'Criptomonedas (50%)', value: resultados.criptomonedas },
-            { label: 'ETFs (30%)', value: resultados.etfs },
-            { label: 'Acciones (10%)', value: resultados.acciones },
-            { label: 'Tokens (10%)', value: resultados.tokens }
-          ].map((item, index) => (
-            <CListGroupItem
-              key={index}
-              style={{
-                backgroundColor: '#1a2529',
-                color: '#e0003d',
-                border: 'none',
-                padding: '15px',
-                marginBottom: '8px',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                transition: 'all 0.3s ease',
-                ':hover': {
-                  backgroundColor: '#22333b',
-                  transform: 'translateX(5px)'
-                }
-              }}
-            >
-              {item.label}: <span style={{ fontWeight: 'bold' }}>
-                ${item.value.toFixed(2)}
-              </span>
-            </CListGroupItem>
-          ))}
-        </CListGroup>
+        <>
+          <CListGroup style={{ border: 'none', marginBottom: '20px' }}>
+            {[
+              { label: 'Criptomonedas (30%)', value: resultados.criptomonedas },
+              { label: 'Acciones (20%)', value: resultados.acciones },
+              { label: 'ETFs (15%)', value: resultados.etfs },
+              { label: 'Tokens nuevos (5%)', value: resultados.tokens },
+              { label: 'Trading (30%)', value: resultados.trading }
+            ].map((item, index) => (
+              <CListGroupItem
+                key={index}
+                style={{
+                  backgroundColor: '#1a2529',
+                  color: '#e0003d',
+                  border: 'none',
+                  padding: '15px',
+                  marginBottom: '8px',
+                  borderRadius: '8px',
+                  fontSize: '1rem'
+                }}
+              >
+                {item.label}: <span style={{ fontWeight: 'bold' }}>
+                  ${item.value.toFixed(2)}
+                </span>
+              </CListGroupItem>
+            ))}
+          </CListGroup>
+
+          <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+            <Pie data={chartData} options={chartOptions} />
+          </div>
+        </>
       )}
     </CCard>
   );
