@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 const MarketPrices = () => {
   const [markets, setMarkets] = useState([]);
   const [error, setError] = useState(null); 
-  const styles =  { backgroundColor: "#0c161c", color: "#e0003d" };
+  const styles = { backgroundColor: "#0c161c", color: "#e0003d", border: "1px solid #e0003d" };
 
   useEffect(() => {
     try {
@@ -47,7 +47,7 @@ const MarketPrices = () => {
 
   return (
     <div className='container' id='horarios'>
-      <h3 className="text-center mb-4" style={styles}>Horarios de Apertura y Cierre de Mercados</h3>
+      <h3 className="text-center mb-4" style={{color: "#e0003d"}}>Horarios de Apertura y Cierre de Mercados</h3>
       <CRow>
         {markets.map((market, index) => (
           <CCol xs={12} md={6} lg={4} key={index} className="mb-4">
@@ -56,14 +56,14 @@ const MarketPrices = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <CCard>
-                <CCardHeader style={{color: "#e0003d", backgroundColor: "#0c161c", fontSize: "20px"}} className="text-center">
+              <CCard style={styles}>
+                <CCardHeader style={{ color: "#e0003d", backgroundColor: "#0c161c", fontSize: "20px" }} className="text-center">
                   <Flag code={market.countryCode} style={{ width: 20, height: 15, marginRight: 10 }} />
                   {market.market} ({market.exchangeName})<br />
                   ({market.openTime} - {market.closeTime} hora local)
                 </CCardHeader>
                 <CCardBody>
-                  <div style={styles}>
+                  <div>
                     <strong>Apertura (Hora Argentina):</strong> {market.openTimeLocal}
                     <br />
                     <strong>Cierre (Hora Argentina):</strong> {market.closeTimeLocal}

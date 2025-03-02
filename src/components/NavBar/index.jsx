@@ -27,6 +27,7 @@ export const NavBar = ({ refs }) => {
     { name: "Herramientas de Mercado", ref: refs.marketToolsTable },
     { name: "Patrones Gráficos", ref: refs.graphicPatterns },
     { name: "Horarios del Mercado", ref: refs.marketPrices },
+    {name: "Rutina de Mercado", ref: refs.MarketRoutine}
   ];
 
   const handleScroll = (ref) => {
