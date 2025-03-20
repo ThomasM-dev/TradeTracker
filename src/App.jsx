@@ -18,6 +18,7 @@ import GraphicPatterns from "./screen/GraphicPatterns";
 import EmaExponencial from './screen/EmaExponencial';
 import PortafolioDiversificado from "./screen/PortafolioDiversificado"
 import MarketRoutine from './screen/MarketRoutine';
+import OrderBook from './screen/OrderBook';
 
 function App() {
   const { data, isLoading } = useGetStatsQuery();
@@ -37,6 +38,7 @@ function App() {
   const emaExponencialRef = useRef(null)
   const portafoliodiversificadoRef = useRef(null)
   const MarketRoutineRef = useRef(null)
+  const OrderBookRef = useRef(null)
 
   if (isLoading) {
     return <Spinner />;
@@ -60,7 +62,8 @@ function App() {
           cryptoPriceChart: cryptoPriceChartRef,
           emaExponencial: emaExponencialRef,
           portafoliodiversificado: portafoliodiversificadoRef,
-          MarketRoutine: MarketRoutineRef
+          MarketRoutine: MarketRoutineRef,
+          OrderBook: OrderBookRef
         }} 
       />
 
@@ -70,6 +73,7 @@ function App() {
       <div ref={tradingPlanRef}><TradingPlan /></div>
       <div ref={tradingTableRef}><TradingTable /></div>
       <div ref={pieChartsRef}><PieCharts /></div>
+      <div ref={OrderBookRef}><OrderBook/></div>
       <div ref={investmentCalculatorRef}><InvestmentCalculator /></div>
       <div ref={ratioCalculatorRef}><RatioCalculator /></div>
       <div ref={interestCalculatorRef}><InterestCalculator /></div>

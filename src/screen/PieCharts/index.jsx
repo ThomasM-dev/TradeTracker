@@ -1,134 +1,126 @@
-import React, { useState } from 'react';
-import {
-  CCard,
-  CButton,
-  CListGroup,
-  CListGroupItem,
-  CAlert,
-  CFormInput
-} from '@coreui/react';
+import React, { useEffect, useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { CCard, CCardBody, CCardHeader, CRow, CCol } from "@coreui/react";
+import { Chart as ChartJS, Title, Tooltip } from "chart.js";
+import { DateTime } from "luxon";
+import "./PieCharts.css";
+import { useGetStatsQuery } from "../../date/firebaseApi";
 
-const PortafolioDiversificado = () => {
-  const [capital, setCapital] = useState('');
-  const [resultados, setResultados] = useState(null);
-  const [error, setError] = useState('');
+// Registrar los componentes necesarios de Chart.js
+ChartJS.register(Title, Tooltip);
 
-  const calcularDistribucion = () => {
-    // Limpiar estados previos
-    setError('');
-    setResultados(null);
+const PieCharts = () => {
+  const { data: stats = {}, error, isLoading } = useGetStatsQuery();
 
-    // Validar entrada
-    const capitalNumerico = parseFloat(capital);
-    if (isNaN(capitalNumerico) || capitalNumerico <= 0) {
-      setError('Por favor, ingresa un capital válido mayor a 0');
-      return;
+  // Estado para almacenar las operaciones filtradas por período
+  const [operations, setOperations] = useState({
+    daily: [],
+    monthly: [],
+    yearly: [],
+  });
+
+  // Función para generar los datos del gráfico
+  const generateChartData = (operations) => {
+    if (operations.length === 0) {
+      return {
+        labels: ["No hay operaciones"],
+        datasets: [
+          {
+            data: [1],
+            backgroundColor: ["#CCCCCC"],
+            hoverBackgroundColor: ["#CCCCCC"],
+          },
+        ],
+      };
     }
 
-    // Calcular distribución
-    const distribucion = {
-      criptomonedas: capitalNumerico * 0.5,
-      etfs: capitalNumerico * 0.3,
-      acciones: capitalNumerico * 0.1,
-      tokens: capitalNumerico * 0.1
-    };
+    const totalGains = operations
+      .filter((op) => parseFloat(op.gananciaPerdida) > 0)
+      .reduce((sum, op) => sum + parseFloat(op.gananciaPerdida), 0);
 
-    setResultados(distribucion);
+    const totalLosses = operations
+      .filter((op) => parseFloat(op.gananciaPerdida) < 0)
+      .reduce((sum, op) => sum + Math.abs(parseFloat(op.gananciaPerdida)), 0);
+
+    const totalAbsolute = totalGains + totalLosses;
+    const gainPercentage = totalAbsolute > 0 ? (totalGains / totalAbsolute) * 100 : 0;
+    const lossPercentage = totalAbsolute > 0 ? (totalLosses / totalAbsolute) * 100 : 0;
+
+    return {
+      labels: [`Ganancias (${gainPercentage.toFixed(2)}%)`, `Pérdidas (${lossPercentage.toFixed(2)}%)`],
+      datasets: [
+        {
+          data: [gainPercentage, lossPercentage],
+          backgroundColor: ["#33FF57", "#e00138"],
+          hoverBackgroundColor: ["#163f10", "#650822"],
+        },
+      ],
+    };
   };
 
+  // Filtrar operaciones por período (diario, mensual, anual)
+  const filterOperations = (stats, period) => {
+    if (!stats || !stats[`${period}Stats`]) return [];
+
+    const dateFormat = {
+      daily: "yyyy-MM-dd",
+      monthly: "yyyy-MM",
+      yearly: "yyyy",
+    };
+
+    const currentPeriod = DateTime.local().toFormat(dateFormat[period]);
+
+    return stats[`${period}Stats`].flatMap((stat) => {
+      const statPeriod = DateTime.fromISO(stat.date || stat.month || stat.year).toFormat(dateFormat[period]);
+      return statPeriod === currentPeriod ? stat.operations : [];
+    });
+  };
+
+  // Actualizar el estado cuando los datos cambien
+  useEffect(() => {
+    if (stats) {
+      setOperations({
+        daily: filterOperations(stats, "daily"),
+        monthly: filterOperations(stats, "monthly"),
+        yearly: filterOperations(stats, "yearly"),
+      });
+    }
+  }, [stats]);
+
+  if (isLoading) return <p>Cargando...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
-    <CCard style={{ 
-      backgroundColor: '#0c161c', 
-      border: 'none',
-      padding: '20px',
-      maxWidth: '500px',
-      margin: '0 auto'
-    }}>
-      <div style={{ color: '#e0003d', marginBottom: '20px' }}>
-        <h3 style={{ margin: 0 }}>Portafolio Diversificado</h3>
-      </div>
-
-      <CFormInput
-        type="number"
-        placeholder="Ingresa el capital a invertir"
-        value={capital}
-        onChange={(e) => setCapital(e.target.value)}
-        style={{
-          backgroundColor: '#1a2529',
-          color: '#ffffff',
-          border: '1px solid #e0003d',
-          marginBottom: '15px'
-        }}
-      />
-
-      <CButton
-        onClick={calcularDistribucion}
-        style={{
-          backgroundColor: '#e0003d',
-          color: '#ffffff',
-          border: 'none',
-          width: '100%',
-          marginBottom: '20px'
-        }}
-      >
-        Calcular Distribución
-      </CButton>
-
-      {error && (
-        <CAlert
-          style={{
-            backgroundColor: '#e0003d',
-            color: '#ffffff',
-            border: 'none',
-            marginBottom: '20px'
-          }}
-        >
-          {error}
-        </CAlert>
-      )}
-
-      {resultados && (
-        <CListGroup style={{ border: 'none' }}>
-          <CListGroupItem
-            style={{
-              backgroundColor: '#0c161c',
-              color: '#e0003d',
-              border: 'none'
-            }}
-          >
-            Criptomonedas (50%): ${resultados.criptomonedas.toFixed(2)}
-          </CListGroupItem>
-          <CListGroupItem
-            style={{
-              backgroundColor: '#0c161c',
-              color: '#e0003d',
-              border: 'none'
-            }}
-          >
-            ETFs (30%): ${resultados.etfs.toFixed(2)}
-          </CListGroupItem>
-          <CListGroupItem
-            style={{
-              backgroundColor: '#0c161c',
-              color: '#e0003d',
-              border: 'none'
-            }}
-          >
-            Acciones (10%): ${resultados.acciones.toFixed(2)}
-          </CListGroupItem>
-          <CListGroupItem
-            style={{
-              backgroundColor: '#0c161c',
-              color: '#e0003d',
-              border: 'none'
-            }}
-          >
-            Tokens (10%): ${resultados.tokens.toFixed(2)}
-          </CListGroupItem>
-        </CListGroup>
-      )}
-    </CCard>
+    <div className="pie-charts container">
+      <CRow>
+        {["daily", "monthly", "yearly"].map((period, index) => (
+          <CCol sm="12" md="4" key={index}>
+            <CCard className="mb-4">
+              <h4
+                style={{
+                  color: "#df0136",
+                  backgroundColor: "#0a161d",
+                  textAlign: "center",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                Rendimiento {period === "daily" ? "Diario" : period === "monthly" ? "Mensual" : "Anual"}
+              </h4>
+              <CCardBody>
+                <Pie data={generateChartData(operations[period])} />
+                {operations[period].length === 0 && (
+                  <p style={{ textAlign: "center", color: "#888" }}>
+                    No hay operaciones en este período.
+                  </p>
+                )}
+              </CCardBody>
+            </CCard>
+          </CCol>
+        ))}
+      </CRow>
+    </div>
   );
 };
 
-export default PortafolioDiversificado;
+export default PieCharts;
