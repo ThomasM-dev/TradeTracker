@@ -19,6 +19,7 @@ export const NavBar = ({ refs }) => {
     {name: "Portafolio Diversificado", ref: refs.portafoliodiversificado},
     { name: "Operaciones", ref: refs.tradingTable },
     { name: "Gráficos", ref: refs.pieCharts },
+    {name: "Roi de operacion", ref: refs.roiOperations},
     { name: "Inversión por Operación", ref: refs.investmentCalculator },
     { name: "Ratio", ref: refs.ratioCalculator },
     { name: "Interés Compuesto", ref: refs.interestCalculator },

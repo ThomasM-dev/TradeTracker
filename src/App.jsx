@@ -66,7 +66,7 @@ function App() {
           portafoliodiversificado: portafoliodiversificadoRef,
           MarketRoutine: MarketRoutineRef,
           OrderBook: OrderBookRef,
-          RoiOperations: RoiOperationsRef
+          roiOperations: RoiOperationsRef
         }} 
       />
 
@@ -76,7 +76,7 @@ function App() {
       <div ref={tradingPlanRef}><TradingPlan /></div>
       <div ref={tradingTableRef}><TradingTable /></div>
       <div ref={pieChartsRef}><PieCharts /></div>
-      <div ref={roiCalculatorRef}><RoiOperations/></div>
+      <div ref={RoiOperationsRef}><RoiOperations/></div>
       <div ref={OrderBookRef}><OrderBook/></div>
       <div ref={investmentCalculatorRef}><InvestmentCalculator /></div>
       <div ref={ratioCalculatorRef}><RatioCalculator /></div>
