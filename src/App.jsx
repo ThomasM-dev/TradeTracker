@@ -19,6 +19,7 @@ import EmaExponencial from './screen/EmaExponencial';
 import PortafolioDiversificado from "./screen/PortafolioDiversificado"
 import MarketRoutine from './screen/MarketRoutine';
 import OrderBook from './screen/OrderBook';
+import RoiOperations from './screen/RoiOperations';
 
 function App() {
   const { data, isLoading } = useGetStatsQuery();
@@ -39,6 +40,7 @@ function App() {
   const portafoliodiversificadoRef = useRef(null)
   const MarketRoutineRef = useRef(null)
   const OrderBookRef = useRef(null)
+  const RoiOperationsRef = useRef(null)
 
   if (isLoading) {
     return <Spinner />;
@@ -63,7 +65,8 @@ function App() {
           emaExponencial: emaExponencialRef,
           portafoliodiversificado: portafoliodiversificadoRef,
           MarketRoutine: MarketRoutineRef,
-          OrderBook: OrderBookRef
+          OrderBook: OrderBookRef,
+          RoiOperations: RoiOperationsRef
         }} 
       />
 
@@ -73,6 +76,7 @@ function App() {
       <div ref={tradingPlanRef}><TradingPlan /></div>
       <div ref={tradingTableRef}><TradingTable /></div>
       <div ref={pieChartsRef}><PieCharts /></div>
+      <div ref={roiCalculatorRef}><RoiOperations/></div>
       <div ref={OrderBookRef}><OrderBook/></div>
       <div ref={investmentCalculatorRef}><InvestmentCalculator /></div>
       <div ref={ratioCalculatorRef}><RatioCalculator /></div>

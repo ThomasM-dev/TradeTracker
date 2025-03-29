@@ -118,7 +118,6 @@ const TradingTable = () => {
       return;
     }
 
-    // Hacer copias profundas de los arrays antes de modificar
     const updatedDailyStats = JSON.parse(JSON.stringify(operations.dailyStats));
     const dailyEntry = updatedDailyStats.find((entry) => entry.date === classified.dailyStats.date);
     if (dailyEntry) {
@@ -143,7 +142,6 @@ const TradingTable = () => {
       updatedYearlyStats.push(classified.yearlyStats);
     }
 
-    // Actualizar el estado y Redux
     setOperations({
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
@@ -153,7 +151,6 @@ const TradingTable = () => {
     dispatch(setMonthlyStats(updatedMonthlyStats));
     dispatch(setYearlyStats(updatedYearlyStats));
 
-    // Guardar en Firebase
     const stats = {
       dailyStats: updatedDailyStats,
       monthlyStats: updatedMonthlyStats,
@@ -161,7 +158,6 @@ const TradingTable = () => {
     };
     await saveStats(stats);
 
-    // Reiniciar el formulario
     setNewOperation({
       id: null,
       fechaHora: "",
